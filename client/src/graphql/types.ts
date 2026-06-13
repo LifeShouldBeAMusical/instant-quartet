@@ -187,6 +187,13 @@ export type SongFragment = {
 	voicing: string
 }
 
+export type LogInMutationVariables = Exact<{
+	password: string
+	username: string
+}>
+
+export type LogInMutation = { login: { token: string | null } }
+
 export type UserInfoQueryVariables = Exact<{
 	token: string
 }>

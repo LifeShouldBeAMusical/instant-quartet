@@ -13,12 +13,15 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-	'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}': typeof types.AllSongsDocument
+	'\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t}\n': typeof types.AllSongsDocument
+	'\n\tmutation LogIn($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\ttoken\n\t\t}\n\t}\n': typeof types.LogInDocument
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t}\n\t}\n': typeof types.UserInfoDocument
 }
 const documents: Documents = {
-	'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}':
+	'\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t}\n':
 		types.AllSongsDocument,
+	'\n\tmutation LogIn($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\ttoken\n\t\t}\n\t}\n':
+		types.LogInDocument,
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t}\n\t}\n':
 		types.UserInfoDocument
 }
@@ -41,8 +44,14 @@ export function gql(source: string): unknown
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-	source: 'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}'
-): (typeof documents)['query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}']
+	source: '\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t}\n'
+): (typeof documents)['\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+	source: '\n\tmutation LogIn($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\ttoken\n\t\t}\n\t}\n'
+): (typeof documents)['\n\tmutation LogIn($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\ttoken\n\t\t}\n\t}\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

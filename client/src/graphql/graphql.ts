@@ -20,6 +20,13 @@ export type SongFragment = {
 	voicing: string
 } & { ' $fragmentName'?: 'SongFragment' }
 
+export type LogInMutationVariables = Exact<{
+	password: string
+	username: string
+}>
+
+export type LogInMutation = { login: { token: string | null } }
+
 export type UserInfoQueryVariables = Exact<{
 	token: string
 }>
@@ -97,6 +104,73 @@ export const AllSongsDocument = {
 		}
 	]
 } as unknown as DocumentNode<AllSongsQuery, AllSongsQueryVariables>
+export const LogInDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'LogIn' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'password' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'username' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'login' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'password' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'password' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'username' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'username' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'token' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<LogInMutation, LogInMutationVariables>
 export const UserInfoDocument = {
 	kind: 'Document',
 	definitions: [
