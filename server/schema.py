@@ -1,5 +1,6 @@
 from strawberry import Schema
 
-from query import SongQuery
+from mutation import AppMutation
+from query import AppQuery
 
-app_schema = Schema(query=SongQuery)
+app_schema = Schema(query=AppQuery, mutation=AppMutation)
