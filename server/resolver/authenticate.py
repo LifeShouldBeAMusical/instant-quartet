@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from data.data_connection import get_async_session
 from model.database.user import UserModel
-from model.enum.login_status import LoginStatus
+from model.enum import LoginStatus
 
 
 async def get_authenticated_user(token: str, session: AsyncSession) -> UserModel:

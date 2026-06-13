@@ -6,9 +6,9 @@ from passlib.hash import sha256_crypt
 from sqlalchemy.exc import IntegrityError
 
 from data.data_connection import get_async_session
-from model.database.user import UserModel
-from model.strawberry.login_result import LoginResult
-from model.enum.login_status import LoginStatus
+from model.database import UserModel
+from model.enum import LoginStatus
+from model.strawberry import LoginResult
 
 
 async def register_user(

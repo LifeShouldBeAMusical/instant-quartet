@@ -3,7 +3,7 @@ from typing import Union
 from sqlalchemy.exc import NoResultFound
 
 from data.data_connection import get_async_session
-from model.enum.login_status import LoginStatus
+from model.enum import LoginStatus
 from model.strawberry import LoginResult, SongList
 from resolver.authenticate import get_authenticated_user
 
