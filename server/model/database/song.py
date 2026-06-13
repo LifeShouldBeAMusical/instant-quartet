@@ -27,3 +27,7 @@ class SongModel(ModelBase):
     """SSAA / SATB / TTBB"""
 
     contributors: Mapped[list[ContributorAssociation]] = relationship()
+
+    def __init__(self, title: str, voicing: Optional[str]):
+        self.title = title
+        self.voicing = voicing
