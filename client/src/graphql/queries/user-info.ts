@@ -1,0 +1,12 @@
+import { gql } from '@apollo/client'
+
+export const userInfoQuery = gql`
+	query UserInfo($token: String!) {
+		shareInfo(token: $token) {
+			... on ShareInfo {
+				displayName
+				username
+			}
+		}
+	}
+`

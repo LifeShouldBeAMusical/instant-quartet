@@ -13,7 +13,8 @@
 		"lint-check": "eslint .",
 		"format": "prettier --write ./",
 		"format-check": "prettier --check ./",
-		"type-check": "vue-tsc --build"
+		"type-check": "vue-tsc --build",
+		"codegen": "graphql-codegen"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.14.1",
