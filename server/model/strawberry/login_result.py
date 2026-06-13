@@ -3,7 +3,7 @@ from uuid import UUID
 
 import strawberry
 
-from model.strawberry.login_status import LoginStatus
+from model.enum import LoginStatus
 
 
 @strawberry.type

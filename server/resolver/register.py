@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from data.data_connection import get_async_session
 from model.database.user import UserModel
 from model.strawberry.login_result import LoginResult
-from model.strawberry.login_status import LoginStatus
+from model.enum.login_status import LoginStatus
 
 
 async def register_user(

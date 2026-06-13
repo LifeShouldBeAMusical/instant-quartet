@@ -5,8 +5,7 @@ from sqlalchemy import TIMESTAMP, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from model.database.base import ModelBase
-from model.database.song import SongModel
-from model.database.user_song_xref import user_song_xref_table
+from model.database.user_song_part import UserSongAssociation
 
 
 class UserModel(ModelBase):
@@ -33,7 +32,7 @@ class UserModel(ModelBase):
         "auth_token_exp", TIMESTAMP(timezone=True), nullable=True
     )
 
-    songs: Mapped[List[SongModel]] = relationship(secondary=user_song_xref_table)
+    songs: Mapped[List[UserSongAssociation]] = relationship()
 
     def __init__(self, username: str, display_name: Optional[str], password_hash: str):
         self.username = username
