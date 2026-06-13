@@ -30,6 +30,7 @@
 		"@vue/apollo-composable": "^4.2.2",
 		"graphql": "^16.14.2",
 		"ionicons": "^8.0.13",
+		"pinia": "^3.0.4",
 		"vue": "^3.5.38",
 		"vue-router": "^4.6.4"
 	},
