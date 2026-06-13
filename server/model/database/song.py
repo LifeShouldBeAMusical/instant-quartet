@@ -1,9 +1,10 @@
 from typing import Optional
 
 from sqlalchemy import Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from model.database.base import ModelBase
+from model.database.contributor_xref import ContributorAssociation
 
 
 class SongModel(ModelBase):
@@ -24,3 +25,5 @@ class SongModel(ModelBase):
 
     voicing: Mapped[Optional[str]] = mapped_column("voicing", String, nullable=True)
     """SSAA / SATB / TTBB"""
+
+    contributors: Mapped[list[ContributorAssociation]] = relationship()

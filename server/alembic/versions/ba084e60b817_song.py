@@ -27,7 +27,7 @@ def upgrade() -> None:
         sa.Column("stock_id", sa.Integer(), nullable=True),
         sa.Column("song_name", sa.String(), nullable=False),
         sa.Column("voicing", sa.String(), nullable=True),
-        sa.PrimaryKeyConstraint("id", name="primary_id"),
+        sa.PrimaryKeyConstraint("id", name="song_primary_id"),
         sa.UniqueConstraint("stock_id", name="unique_stock_id"),
     )
     # ### end Alembic commands ###
