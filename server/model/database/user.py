@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import List, Optional
 
-from sqlalchemy import Integer, String
+from sqlalchemy import TIMESTAMP, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from model.database.base import ModelBase
@@ -23,6 +24,13 @@ class UserModel(ModelBase):
 
     password_encoded: Mapped[str] = mapped_column(
         "password_encoded", String, nullable=False
+    )
+
+    auth_token: Mapped[Optional[str]] = mapped_column(
+        "auth_token", String, nullable=True
+    )
+    auth_token_expiration: Mapped[Optional[datetime]] = mapped_column(
+        "auth_token_exp", TIMESTAMP(timezone=True), nullable=True
     )
 
     songs: Mapped[List[SongModel]] = relationship(secondary=user_song_xref_table)
