@@ -7,6 +7,19 @@ export type Incremental<T> =
 			[P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
 	  }
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
+export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllSongsQuery = {
+	allSongs: Array<{ ' $fragmentRefs'?: { SongFragment: SongFragment } }>
+}
+
+export type SongFragment = {
+	id: string
+	title: string
+	stockId: number | null
+	voicing: string
+} & { ' $fragmentName'?: 'SongFragment' }
+
 export type UserInfoQueryVariables = Exact<{
 	token: string
 }>
@@ -17,6 +30,73 @@ export type UserInfoQuery = {
 		| Record<PropertyKey, never>
 }
 
+export const SongFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<SongFragment, unknown>
+export const AllSongsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'AllSongs' },
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'allSongs' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Song' }
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<AllSongsQuery, AllSongsQueryVariables>
 export const UserInfoDocument = {
 	kind: 'Document',
 	definitions: [

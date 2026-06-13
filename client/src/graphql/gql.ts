@@ -13,9 +13,12 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+	'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}': typeof types.AllSongsDocument
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t}\n\t}\n': typeof types.UserInfoDocument
 }
 const documents: Documents = {
+	'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}':
+		types.AllSongsDocument,
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t}\n\t}\n':
 		types.UserInfoDocument
 }
@@ -34,6 +37,12 @@ const documents: Documents = {
  */
 export function gql(source: string): unknown
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+	source: 'query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}'
+): (typeof documents)['query AllSongs {\n  allSongs {\n    ...Song\n  }\n}\n\nfragment Song on Song {\n  id\n  title\n  stockId\n  voicing\n}']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -7,8 +7,8 @@ import {
 	IonTabBar,
 	IonTabButton,
 	IonTabs
-} from '@ionic/vue'
-import { ellipse, square, triangle } from 'ionicons/icons'
+} from '@ionic/vue';
+import { musicalNotes, square, triangle } from 'ionicons/icons';
 </script>
 
 <template>
@@ -22,8 +22,8 @@ import { ellipse, square, triangle } from 'ionicons/icons'
 				</ion-tab-button>
 
 				<ion-tab-button tab="tab2" href="/tabs/tab2">
-					<ion-icon aria-hidden="true" :icon="ellipse" />
-					<ion-label>Tab 2</ion-label>
+					<ion-icon aria-hidden="true" :icon="musicalNotes" />
+					<ion-label>Music</ion-label>
 				</ion-tab-button>
 
 				<ion-tab-button tab="tab3" href="/tabs/tab3">

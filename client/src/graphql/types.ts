@@ -169,6 +169,24 @@ export enum VoicePart {
 	Tenor = 'TENOR'
 }
 
+export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllSongsQuery = {
+	allSongs: Array<{
+		id: string
+		title: string
+		stockId: number | null
+		voicing: string
+	}>
+}
+
+export type SongFragment = {
+	id: string
+	title: string
+	stockId: number | null
+	voicing: string
+}
+
 export type UserInfoQueryVariables = Exact<{
 	token: string
 }>
