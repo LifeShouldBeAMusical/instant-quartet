@@ -2,23 +2,12 @@ from typing import Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
-import strawberry
 
 from data.data_connection import get_async_session
 from model.database import SongModel
 from model.enum import LoginStatus, SuccessFailure
-from model.strawberry import LoginResult, Song, SongInput
+from model.strawberry import LearnSongResult, LoginResult, Song, SongInput
 from resolver.authenticate import get_authenticated_user
-
-
-@strawberry.type
-class LearnSongResult:
-    status: SuccessFailure
-    song: Optional[Song]
-
-    def __init__(self, status: SuccessFailure, song: Optional[Song] = None):
-        self.status = status
-        self.song = song
 
 
 async def learn_song(
