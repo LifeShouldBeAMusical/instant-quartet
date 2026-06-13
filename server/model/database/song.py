@@ -20,7 +20,7 @@ class SongModel(ModelBase):
     )
     """Stock ID"""
 
-    song_name: Mapped[str] = mapped_column("song_name", String, nullable=False)
+    title: Mapped[str] = mapped_column("song_name", String, nullable=False)
     """Name"""
 
     voicing: Mapped[Optional[str]] = mapped_column("voicing", String, nullable=True)

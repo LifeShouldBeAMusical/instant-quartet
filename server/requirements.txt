@@ -1,4 +1,7 @@
 alembic
 asyncpg
 black
+dotenv
+fastapi[standard]
 sqlalchemy
+strawberry-graphql[fastapi]
