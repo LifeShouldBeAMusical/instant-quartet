@@ -1,0 +1,7 @@
+{
+  "name": "Instant Quartet",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
