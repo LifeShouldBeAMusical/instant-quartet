@@ -32,6 +32,8 @@ class AdditionalSongInfo:
 class SongInfo:
     title: str
     voicing: str
+    stock_id: Optional[int] = None
+    contributors: Optional[list[SongContributor]] = None
 
 
 @strawberry.input(one_of=True)
