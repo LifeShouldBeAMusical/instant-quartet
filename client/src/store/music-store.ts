@@ -9,7 +9,7 @@ import {
 	MySongsQuery,
 	MySongsQueryVariables,
 	SongFragment,
-	SongInput,
+	SongIdentifier,
 	VoicePart
 } from '@/graphql/types'
 import { apolloClient } from '@/store/client'
@@ -60,9 +60,14 @@ export const useMusicStore = defineStore('music-store', () => {
 		)
 	)
 
-	const learnSong = (songInput: SongInput, voicePart: VoicePart) =>
+	const learnSong = (songInput: SongIdentifier, voicePart: VoicePart) =>
 		userStore.token &&
-		learnSongMutate({ songInput, voicePart, token: userStore.token })
+		learnSongMutate({
+			songInput,
+			learned: { voicePart, token: userStore.token }
+		})
+	const addSong = (songInput: SongIdentifier) => learnSongMutate({ songInput })
+
 	onSongLearned(() => {
 		loadMusic(allSongsQuery, {}, { fetchPolicy: 'network-only' })
 		if (userStore.token) {
@@ -74,5 +79,13 @@ export const useMusicStore = defineStore('music-store', () => {
 		}
 	})
 
-	return { fetchMusic, music, fetchMyMusic, myMusic, myMusicIds, learnSong }
+	return {
+		fetchMusic,
+		music,
+		fetchMyMusic,
+		myMusic,
+		myMusicIds,
+		addSong,
+		learnSong
+	}
 })

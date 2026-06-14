@@ -6,16 +6,30 @@ export type Incremental<T> =
 	| {
 			[P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
 	  }
-export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
+export type ContributionType = 'ARRANGER' | 'COMPOSER' | 'LYRICIST'
 
-export type SongInfo = {
-	title: string
-	voicing: string
+export type LearnSongInput = {
+	token: string
+	voicePart: VoicePart
 }
 
-export type SongInput = {
+export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
+
+export type SongContributor = {
+	contributionType: ContributionType
+	contributorName: string
+}
+
+export type SongIdentifier = {
 	id?: number | null | undefined
 	info?: SongInfo | null | undefined
+}
+
+export type SongInfo = {
+	contributors?: Array<SongContributor> | null | undefined
+	stockId?: number | null | undefined
+	title: string
+	voicing: string
 }
 
 export type SuccessFailure = 'FAILURE' | 'SUCCESS'
@@ -39,9 +53,8 @@ export type AllSongsQuery = {
 }
 
 export type LearnSongMutationVariables = Exact<{
-	songInput: SongInput
-	token: string
-	voicePart: VoicePart
+	songInput: SongIdentifier
+	learned?: LearnSongInput | null | undefined
 }>
 
 export type LearnSongMutation = {

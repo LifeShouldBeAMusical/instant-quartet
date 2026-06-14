@@ -2,12 +2,8 @@ import { songFragment } from '@/graphql/queries/song-fragment'
 import { gql } from 'graphql-tag'
 
 export const learnSongMutation = gql`
-	mutation LearnSong(
-		$songInput: SongInput!
-		$token: String!
-		$voicePart: VoicePart!
-	) {
-		learnSong(songInput: $songInput, token: $token, voicePart: $voicePart) {
+	mutation LearnSong($songInput: SongIdentifier!, $learned: LearnSongInput) {
+		learnSong(songInput: $songInput, learned: $learned) {
 			... on LearnSongResult {
 				__typename
 				status

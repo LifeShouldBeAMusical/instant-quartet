@@ -14,7 +14,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  */
 type Documents = {
 	'\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\t\n': typeof types.AllSongsDocument
-	'\n\tmutation LearnSong(\n\t\t$songInput: SongInput!\n\t\t$token: String!\n\t\t$voicePart: VoicePart!\n\t) {\n\t\tlearnSong(songInput: $songInput, token: $token, voicePart: $voicePart) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n': typeof types.LearnSongDocument
+	'\n\tmutation LearnSong($songInput: SongIdentifier!, $learned: LearnSongInput) {\n\t\tlearnSong(songInput: $songInput, learned: $learned) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n': typeof types.LearnSongDocument
 	'\n\tmutation Login($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n': typeof types.LoginDocument
 	'\n\tquery MySongs($token: String!) {\n\t\tmySongs(token: $token) {\n\t\t\t... on SongList {\n\t\t\t\tsongs {\n\t\t\t\t\t...MySong\n\t\t\t\t}\n\t\t\t}\n\t\t\t... on LoginResult {\n\t\t\t\tstatus\n\t\t\t}\n\t\t}\n\t}\n\n\tfragment MySong on SongListItem {\n\t\tparts\n\t\tsong {\n\t\t\t...Song\n\t\t}\n\t}\n\n\t\n': typeof types.MySongsDocument
 	'\n\tmutation Register(\n\t\t$displayName: String\n\t\t$password: String!\n\t\t$username: String!\n\t) {\n\t\tregister(\n\t\t\tpassword: $password\n\t\t\tusername: $username\n\t\t\tdisplayName: $displayName\n\t\t) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n': typeof types.RegisterDocument
@@ -24,7 +24,7 @@ type Documents = {
 const documents: Documents = {
 	'\n\tquery AllSongs {\n\t\tallSongs {\n\t\t\t...Song\n\t\t}\n\t}\n\n\t\n':
 		types.AllSongsDocument,
-	'\n\tmutation LearnSong(\n\t\t$songInput: SongInput!\n\t\t$token: String!\n\t\t$voicePart: VoicePart!\n\t) {\n\t\tlearnSong(songInput: $songInput, token: $token, voicePart: $voicePart) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n':
+	'\n\tmutation LearnSong($songInput: SongIdentifier!, $learned: LearnSongInput) {\n\t\tlearnSong(songInput: $songInput, learned: $learned) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n':
 		types.LearnSongDocument,
 	'\n\tmutation Login($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n':
 		types.LoginDocument,
@@ -62,8 +62,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-	source: '\n\tmutation LearnSong(\n\t\t$songInput: SongInput!\n\t\t$token: String!\n\t\t$voicePart: VoicePart!\n\t) {\n\t\tlearnSong(songInput: $songInput, token: $token, voicePart: $voicePart) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n'
-): (typeof documents)['\n\tmutation LearnSong(\n\t\t$songInput: SongInput!\n\t\t$token: String!\n\t\t$voicePart: VoicePart!\n\t) {\n\t\tlearnSong(songInput: $songInput, token: $token, voicePart: $voicePart) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n']
+	source: '\n\tmutation LearnSong($songInput: SongIdentifier!, $learned: LearnSongInput) {\n\t\tlearnSong(songInput: $songInput, learned: $learned) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n'
+): (typeof documents)['\n\tmutation LearnSong($songInput: SongIdentifier!, $learned: LearnSongInput) {\n\t\tlearnSong(songInput: $songInput, learned: $learned) {\n\t\t\t... on LearnSongResult {\n\t\t\t\t__typename\n\t\t\t\tstatus\n\t\t\t\tsong {\n\t\t\t\t\t...Song\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\t\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

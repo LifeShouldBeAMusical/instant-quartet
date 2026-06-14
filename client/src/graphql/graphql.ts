@@ -7,16 +7,30 @@ export type Incremental<T> =
 			[P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
 	  }
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
-export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
+export type ContributionType = 'ARRANGER' | 'COMPOSER' | 'LYRICIST'
 
-export type SongInfo = {
-	title: string
-	voicing: string
+export type LearnSongInput = {
+	token: string
+	voicePart: VoicePart
 }
 
-export type SongInput = {
+export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
+
+export type SongContributor = {
+	contributionType: ContributionType
+	contributorName: string
+}
+
+export type SongIdentifier = {
 	id?: number | null | undefined
 	info?: SongInfo | null | undefined
+}
+
+export type SongInfo = {
+	contributors?: Array<SongContributor> | null | undefined
+	stockId?: number | null | undefined
+	title: string
+	voicing: string
 }
 
 export type SuccessFailure = 'FAILURE' | 'SUCCESS'
@@ -30,9 +44,8 @@ export type AllSongsQuery = {
 }
 
 export type LearnSongMutationVariables = Exact<{
-	songInput: SongInput
-	token: string
-	voicePart: VoicePart
+	songInput: SongIdentifier
+	learned?: LearnSongInput | null | undefined
 }>
 
 export type LearnSongMutation = {
@@ -291,7 +304,7 @@ export const LearnSongDocument = {
 						kind: 'NonNullType',
 						type: {
 							kind: 'NamedType',
-							name: { kind: 'Name', value: 'SongInput' }
+							name: { kind: 'Name', value: 'SongIdentifier' }
 						}
 					}
 				},
@@ -299,25 +312,11 @@ export const LearnSongDocument = {
 					kind: 'VariableDefinition',
 					variable: {
 						kind: 'Variable',
-						name: { kind: 'Name', value: 'token' }
+						name: { kind: 'Name', value: 'learned' }
 					},
 					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-					}
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: {
-						kind: 'Variable',
-						name: { kind: 'Name', value: 'voicePart' }
-					},
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'NamedType',
-							name: { kind: 'Name', value: 'VoicePart' }
-						}
+						kind: 'NamedType',
+						name: { kind: 'Name', value: 'LearnSongInput' }
 					}
 				}
 			],
@@ -338,18 +337,10 @@ export const LearnSongDocument = {
 							},
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'token' },
+								name: { kind: 'Name', value: 'learned' },
 								value: {
 									kind: 'Variable',
-									name: { kind: 'Name', value: 'token' }
-								}
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'voicePart' },
-								value: {
-									kind: 'Variable',
-									name: { kind: 'Name', value: 'voicePart' }
+									name: { kind: 'Name', value: 'learned' }
 								}
 							}
 						],
