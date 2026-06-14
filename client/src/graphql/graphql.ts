@@ -7,6 +7,8 @@ export type Incremental<T> =
 			[P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
 	  }
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
+export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
+
 export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllSongsQuery = {
@@ -25,7 +27,9 @@ export type LoginMutationVariables = Exact<{
 	username: string
 }>
 
-export type LoginMutation = { login: { status: string; token: string | null } }
+export type LoginMutation = {
+	login: { status: LoginStatus; token: string | null }
+}
 
 export type RegisterMutationVariables = Exact<{
 	displayName?: string | null | undefined
@@ -34,7 +38,7 @@ export type RegisterMutationVariables = Exact<{
 }>
 
 export type RegisterMutation = {
-	register: { status: string; token: string | null }
+	register: { status: LoginStatus; token: string | null }
 }
 
 export type UserInfoQueryVariables = Exact<{
@@ -43,7 +47,7 @@ export type UserInfoQueryVariables = Exact<{
 
 export type UserInfoQuery = {
 	shareInfo:
-		| { status: string }
+		| { status: LoginStatus }
 		| { displayName: string | null; username: string }
 }
 

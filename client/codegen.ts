@@ -1,7 +1,7 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-	schema: import.meta.env.VITE_BACKEND_URL,
+	schema: 'http://localhost:8000/graphql',
 	documents: ['../client/src/graphql/queries/*.ts'],
 	generates: {
 		'./src/graphql/': {
@@ -14,10 +14,14 @@ const config: CodegenConfig = {
 		},
 		'./src/graphql/types.ts': {
 			config: {
-				useTypeImports: true,
-				scalars: { Union: 'number', DateTime: 'Date' }
+				// enumAsTypes: true,
+				scalars: { DateTime: 'Date' },
+				skipTypename: false
 			},
-			plugins: ['typescript', 'typescript-operations']
+			plugins: [
+				// 'typescript',
+				'typescript-operations'
+			]
 		}
 	}
 }
