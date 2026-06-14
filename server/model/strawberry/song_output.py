@@ -6,7 +6,6 @@ from model.database import SongModel
 from model.strawberry.contributor import Contributor
 
 
-
 @strawberry.type
 class Song:
     id: strawberry.ID
