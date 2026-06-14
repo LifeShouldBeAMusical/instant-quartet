@@ -1,4 +1,29 @@
+from typing import Generic, Optional, TypeVar
+
 import strawberry
+
+
+@strawberry.input
+class SongContributor:
+    contributor_name: str
+    contribution_type: str
+
+
+T = TypeVar("T")
+
+
+@strawberry.input
+class AddRemove(Generic[T]):
+    add: list[T] = None
+    remove: list[T] = None
+
+
+@strawberry.input
+class AdditionalSongInfo:
+    title: Optional[str] = None
+    voicing: Optional[str] = None
+    stock_id: Optional[int] = None
+    contributors: Optional[AddRemove[SongContributor]] = None
 
 
 @strawberry.input
