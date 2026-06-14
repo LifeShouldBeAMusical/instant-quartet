@@ -59,5 +59,5 @@
 		"vitest": "^4.1.8",
 		"vue-tsc": "^3.3.5"
 	},
-	"description": "An Ionic project"
+	"description": "An application for finding common songs between barbershoppers"
 }
