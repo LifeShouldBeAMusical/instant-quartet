@@ -22,7 +22,7 @@ provideApolloClient(apolloClient)
 
 const { load: loadMusic, result: musicResult } =
 	useLazyQuery<AllSongsQuery>(allSongsQuery)
-const { mutate: learnSongMutate } = useMutation<
+const { mutate: learnSongMutate, onDone: onSongLearned } = useMutation<
 	LearnSongMutation,
 	LearnSongMutationVariables
 >(learnSongMutation)
@@ -37,6 +37,10 @@ export const useMusicStore = defineStore('music-store', () => {
 	const learnSong = (songInput: SongInput, voicePart: VoicePart) =>
 		userStore.token &&
 		learnSongMutate({ songInput, voicePart, token: userStore.token })
+
+	onSongLearned(() => {
+		loadMusic(allSongsQuery, {}, { fetchPolicy: 'network-only' })
+	})
 
 	return { fetchMusic, music, learnSong }
 })
