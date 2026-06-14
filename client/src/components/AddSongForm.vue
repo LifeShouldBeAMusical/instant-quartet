@@ -41,17 +41,14 @@ const learn = () =>
 		<div>Learn Song</div>
 		<div>
 			<ion-input label="Song Title" v-model="songTitle" />
-			<div>{{ songTitle }}</div>
 			<ion-select label="Voicing" v-model="voicing">
 				<ion-select-option value="SSAA">SSAA</ion-select-option>
 				<ion-select-option value="SATB">SATB</ion-select-option>
 				<ion-select-option value="TTBB">TTBB</ion-select-option>
 				<ion-select-option value="other">Other</ion-select-option>
 			</ion-select>
-			<div>{{ voicing }}</div>
 			<div v-if="voicing == 'other'">
 				<ion-input label="Custom Voicing" v-model="voicingCustom" />
-				<div>{{ voicingCustom }}</div>
 			</div>
 			<ion-select label="Voice Part" v-model="voicePart">
 				<ion-select-option value="TENOR">Tenor</ion-select-option>
@@ -59,7 +56,6 @@ const learn = () =>
 				<ion-select-option value="BARI">Bari</ion-select-option>
 				<ion-select-option value="BASS">Bass</ion-select-option>
 			</ion-select>
-			<div>{{ voicePart }}</div>
 			<ion-button @click="learn" :disabled="!enableButton">
 				Learn Song
 			</ion-button>
