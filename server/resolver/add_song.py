@@ -4,10 +4,20 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
 from data.data_connection import get_async_session
-from model.database import SongModel, UserSongAssociation
+from model.database import (
+    ContributorModel,
+    ContributorAssociation,
+    SongModel,
+    UserSongAssociation,
+)
 from model.enum import LoginStatus, SuccessFailure
-from model.strawberry import LearnSongResult, LoginResult, Song, SongIdentifier
-from model.strawberry.song_input import LearnSongInput
+from model.strawberry import (
+    LearnSongInput,
+    LearnSongResult,
+    LoginResult,
+    Song,
+    SongIdentifier,
+)
 from resolver.authenticate import get_authenticated_user
 
 
@@ -23,8 +33,25 @@ async def learn_song(
                 )
             ).one()
         elif song_input.info is not None:
+            contributors: list[ContributorAssociation] = []
+            for c in song_input.info.value.contributors:
+                person = (
+                    await session.scalars(
+                        select(ContributorModel).where(
+                            ContributorModel.person_name == c.contributor_name
+                        )
+                    )
+                ).one_or_none() or ContributorModel(c.contributor_name)
+                session.add(person)
+                await session.flush()
+                await session.refresh(person)
+                contributors.append(ContributorAssociation(person, c.contribution_type))
+
             song_data = SongModel(
-                title=song_input.info.value.title, voicing=song_input.info.value.voicing
+                title=song_input.info.value.title,
+                voicing=song_input.info.value.voicing,
+                stock_id=song_input.info.value.stock_id,
+                contributors=contributors,
             )
             session.add(song_data)
             await session.flush()
