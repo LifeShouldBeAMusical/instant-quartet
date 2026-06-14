@@ -9,11 +9,12 @@ import {
 	IonTitle,
 	IonToolbar
 } from '@ionic/vue'
-import { computed, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 
 const store = useUserStore()
 
 const token = computed(() => store.token)
+const userInfo = computed(() => store.userInfo)
 
 const displayName = ref()
 const username = ref()
@@ -26,9 +27,14 @@ const login = () => {
 }
 const register = () => {
 	if (username.value && password.value) {
-store.register({displayName : displayName.value, username: username.value, password: password.value})
+		store.register({
+			displayName: displayName.value,
+			username: username.value,
+			password: password.value
+		})
 	}
 }
+onBeforeMount(() => store.fetchUserInfo())
 </script>
 
 <template>
@@ -46,7 +52,9 @@ store.register({displayName : displayName.value, username: username.value, passw
 			</ion-header>
 
 			<template v-if="token">
-				<div>Token: {{ token }}</div>
+				<div v-if="userInfo">
+					{{ userInfo }}
+				</div>
 			</template>
 			<template v-else>
 				<ion-input label="Username" v-model="username" required></ion-input>
