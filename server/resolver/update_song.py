@@ -4,13 +4,10 @@ from sqlalchemy.exc import NoResultFound
 from data.data_connection import get_async_session
 from model.database import ContributorModel, ContributorAssociation, SongModel
 from model.enum import SuccessFailure
-from model.strawberry import AdditionalSongInfo
+from model.strawberry import PartialSongInfo
 
 
-async def update_song_info(
-    song_id: int,
-    song_input: AdditionalSongInfo,
-) -> SuccessFailure:
+async def update_song_info(song_id: int, song_input: PartialSongInfo) -> SuccessFailure:
     async with get_async_session() as session:
         try:
             song = (

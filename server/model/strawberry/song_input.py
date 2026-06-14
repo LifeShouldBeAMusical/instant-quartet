@@ -1,8 +1,9 @@
-from typing import Generic, Optional, TypeVar
+from typing import Optional
 
 import strawberry
 
-from model.enum import ContributionType
+from model.enum import ContributionType, VoicePart
+from model.strawberry.add_remove import AddRemove
 
 
 @strawberry.input
@@ -11,17 +12,8 @@ class SongContributor:
     contribution_type: ContributionType
 
 
-T = TypeVar("T")
-
-
 @strawberry.input
-class AddRemove(Generic[T]):
-    add: list[T] = None
-    remove: list[T] = None
-
-
-@strawberry.input
-class AdditionalSongInfo:
+class PartialSongInfo:
     title: Optional[str] = None
     voicing: Optional[str] = None
     stock_id: Optional[int] = None
@@ -37,6 +29,12 @@ class SongInfo:
 
 
 @strawberry.input(one_of=True)
-class SongInput:
+class SongIdentifier:
     id: strawberry.Maybe[int]
     info: strawberry.Maybe[SongInfo]
+
+
+@strawberry.input
+class LearnSongInput:
+    token: str
+    voice_part: VoicePart
