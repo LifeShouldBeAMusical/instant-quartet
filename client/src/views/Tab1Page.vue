@@ -2,6 +2,8 @@
 import LoginRegisterForm from '@/components/LoginRegisterForm.vue'
 import { useUserStore } from '@/store/user-store'
 import {
+	IonButton,
+	IonButtons,
 	IonContent,
 	IonHeader,
 	IonPage,
@@ -16,6 +18,7 @@ const token = computed(() => store.token)
 const userInfo = computed(() =>
 	store.userInfo && 'username' in store.userInfo ? store.userInfo : undefined
 )
+const logout = () => store.logout()
 
 onBeforeMount(() => store.fetchUserInfo())
 </script>
@@ -37,6 +40,9 @@ onBeforeMount(() => store.fetchUserInfo())
 			<template v-if="token">
 				<div v-if="userInfo">
 					Hi, {{ userInfo.displayName ?? userInfo.username }}!
+					<ion-buttons>
+						<ion-button @click="logout">Log Out</ion-button>
+					</ion-buttons>
 				</div>
 			</template>
 			<login-register-form v-else />

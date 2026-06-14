@@ -46,11 +46,13 @@ export const useUserStore = defineStore('user-store', () => {
 	const token = ref<string | undefined>(fetchStoredToken())
 	watch(token, () => storeToken(token.value))
 
+	const logout = () => token.value = undefined
+
 	const fetchUserInfo = () =>
 		token.value && loadUserInfo(userInfoQuery, { token: token.value })
 	watch(token, fetchUserInfo)
 
-	const userInfo = computed(() => userInfoResult.value?.shareInfo)
+	const userInfo = computed(() => token.value ? userInfoResult.value?.shareInfo : undefined)
 	watch(userInfo, () => {
 		if (userInfo.value) {
 			if ('status' in userInfo.value) {
@@ -70,5 +72,5 @@ export const useUserStore = defineStore('user-store', () => {
 			(token.value = result.data?.register.token ?? undefined)
 	)
 
-	return { login, register, token, fetchUserInfo, userInfo }
+	return { login, logout, register, token, fetchUserInfo, userInfo }
 })
