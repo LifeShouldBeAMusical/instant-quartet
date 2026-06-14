@@ -54,6 +54,23 @@ export type LoginMutation = {
 	login: { status: LoginStatus; token: string | null }
 }
 
+export type MySongsQueryVariables = Exact<{
+	token: string
+}>
+
+export type MySongsQuery = {
+	mySongs:
+		| { status: LoginStatus }
+		| {
+				songs: Array<{ ' $fragmentRefs'?: { MySongFragment: MySongFragment } }>
+		  }
+}
+
+export type MySongFragment = {
+	parts: Array<VoicePart>
+	song: { ' $fragmentRefs'?: { SongFragment: SongFragment } }
+} & { ' $fragmentName'?: 'MySongFragment' }
+
 export type RegisterMutationVariables = Exact<{
 	displayName?: string | null | undefined
 	password: string
@@ -103,6 +120,55 @@ export const SongFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<SongFragment, unknown>
+export const MySongFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'MySong' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'SongListItem' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'parts' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'song' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Song' }
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<MySongFragment, unknown>
 export const AllSongsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -357,6 +423,135 @@ export const LoginDocument = {
 		}
 	]
 } as unknown as DocumentNode<LoginMutation, LoginMutationVariables>
+export const MySongsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'MySongs' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'token' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'mySongs' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'token' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'token' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'InlineFragment',
+									typeCondition: {
+										kind: 'NamedType',
+										name: { kind: 'Name', value: 'SongList' }
+									},
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'songs' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: { kind: 'Name', value: 'MySong' }
+														}
+													]
+												}
+											}
+										]
+									}
+								},
+								{
+									kind: 'InlineFragment',
+									typeCondition: {
+										kind: 'NamedType',
+										name: { kind: 'Name', value: 'LoginResult' }
+									},
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } }
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'MySong' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'SongListItem' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'parts' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'song' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Song' }
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<MySongsQuery, MySongsQueryVariables>
 export const RegisterDocument = {
 	kind: 'Document',
 	definitions: [

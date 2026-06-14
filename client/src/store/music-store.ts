@@ -1,9 +1,13 @@
 import { allSongsQuery } from '@/graphql/queries/all-songs'
 import { learnSongMutation } from '@/graphql/queries/learn-song'
+import { mySongsQuery } from '@/graphql/queries/my-songs'
 import {
 	AllSongsQuery,
 	LearnSongMutation,
 	LearnSongMutationVariables,
+	MySongFragment,
+	MySongsQuery,
+	MySongsQueryVariables,
 	SongFragment,
 	SongInput,
 	VoicePart
@@ -22,6 +26,10 @@ provideApolloClient(apolloClient)
 
 const { load: loadMusic, result: musicResult } =
 	useLazyQuery<AllSongsQuery>(allSongsQuery)
+const { load: loadMyMusic, result: myMusicResult } = useLazyQuery<
+	MySongsQuery,
+	MySongsQueryVariables
+>(mySongsQuery)
 const { mutate: learnSongMutate, onDone: onSongLearned } = useMutation<
 	LearnSongMutation,
 	LearnSongMutationVariables
@@ -34,13 +42,30 @@ export const useMusicStore = defineStore('music-store', () => {
 	)
 
 	const userStore = useUserStore()
+
+	const fetchMyMusic = () =>
+		userStore.token && loadMyMusic(mySongsQuery, { token: userStore.token })
+	const myMusic = computed<MySongFragment[] | undefined>(() =>
+		myMusicResult.value?.mySongs && 'songs' in myMusicResult.value.mySongs
+			? myMusicResult.value.mySongs.songs
+			: undefined
+	)
+	const myMusicIds = computed(() =>
+		myMusic.value?.reduce(
+			(acc, currentValue): Record<string, string[]> => ({
+				...acc,
+				[currentValue.song.id]: currentValue.parts
+			}),
+			{}
+		)
+	)
+
 	const learnSong = (songInput: SongInput, voicePart: VoicePart) =>
 		userStore.token &&
 		learnSongMutate({ songInput, voicePart, token: userStore.token })
-
 	onSongLearned(() => {
 		loadMusic(allSongsQuery, {}, { fetchPolicy: 'network-only' })
 	})
 
-	return { fetchMusic, music, learnSong }
+	return { fetchMusic, music, fetchMyMusic, myMusic, myMusicIds, learnSong }
 })

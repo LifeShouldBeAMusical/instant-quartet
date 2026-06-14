@@ -63,6 +63,31 @@ export type LoginMutation = {
 	login: { status: LoginStatus; token: string | null }
 }
 
+export type MySongsQueryVariables = Exact<{
+	token: string
+}>
+
+export type MySongsQuery = {
+	mySongs:
+		| { status: LoginStatus }
+		| {
+				songs: Array<{
+					parts: Array<VoicePart>
+					song: {
+						id: string
+						title: string
+						stockId: number | null
+						voicing: string
+					}
+				}>
+		  }
+}
+
+export type MySongFragment = {
+	parts: Array<VoicePart>
+	song: { id: string; title: string; stockId: number | null; voicing: string }
+}
+
 export type RegisterMutationVariables = Exact<{
 	displayName?: string | null | undefined
 	password: string

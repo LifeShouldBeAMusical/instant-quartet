@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SongFragment, VoicePart } from '@/graphql/types'
-import { useMusicStore } from '@/store/music-store'
+import { SongFragment, VoicePart } from '@/graphql/types';
+import { useMusicStore } from '@/store/music-store';
 import {
 	IonButton,
 	IonButtons,
@@ -9,10 +9,13 @@ import {
 	IonModal,
 	IonTitle,
 	IonToolbar
-} from '@ionic/vue'
-import { ref } from 'vue'
+} from '@ionic/vue';
+import { ref } from 'vue';
 
-const { song } = defineProps<{ song: SongFragment }>()
+const { song } = defineProps<{
+	song: SongFragment
+	learnedParts: VoicePart[] | undefined
+}>()
 
 const musicStore = useMusicStore()
 
@@ -32,6 +35,9 @@ const closeModal = () => (modalOpen.value = false)
 				{{ song.title }}
 			</span>
 			<span>({{ song.voicing }})</span>
+			<div v-if="learnedParts">
+				<span v-for="part in learnedParts" :key="part">{{ part }}</span>
+			</div>
 		</div>
 		<ion-button @click="openModal">Learn</ion-button>
 		<ion-modal :is-open="modalOpen">
@@ -45,10 +51,14 @@ const closeModal = () => (modalOpen.value = false)
 			</ion-header>
 			<ion-content>
 				<ion-buttons>
-					<ion-button @click="() => learn('TENOR')">Tenor</ion-button>
-					<ion-button @click="() => learn('LEAD')">Lead</ion-button>
-					<ion-button @click="() => learn('BARI')">Bari</ion-button>
-					<ion-button @click="() => learn('BASS')">Bass</ion-button>
+					<ion-button
+						v-for="part in ['TENOR', 'LEAD', 'BARI', 'BASS']"
+						:key="part"
+						@click="() => learn(part)"
+						:disabled="learnedParts?.includes(part)"
+					>
+						{{ part }}
+					</ion-button>
 				</ion-buttons>
 			</ion-content>
 		</ion-modal>
