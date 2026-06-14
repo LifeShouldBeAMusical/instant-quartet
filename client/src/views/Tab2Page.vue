@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AddSongForm from '@/components/AddSongForm.vue'
-import { useMusicStore } from '@/store/music-store'
+import MusicLibrary from '@/components/MusicLibrary.vue'
 import {
 	IonContent,
 	IonHeader,
@@ -8,12 +8,6 @@ import {
 	IonTitle,
 	IonToolbar
 } from '@ionic/vue'
-import { computed, onBeforeMount } from 'vue'
-
-const store = useMusicStore()
-const music = computed(() => store.music)
-
-onBeforeMount(() => store.fetchMusic())
 </script>
 
 <template>
@@ -30,12 +24,8 @@ onBeforeMount(() => store.fetchMusic())
 				</ion-toolbar>
 			</ion-header>
 
-			<div>
-				<div>{{ music.length.toLocaleString() }} Songs</div>
-				<div>
-					<div v-for="song in music" :key="song.id">{{ song }}</div>
-				</div>
-			</div>
+			<music-library />
+
 			<add-song-form />
 		</ion-content>
 	</ion-page>
