@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SongFragment, VoicePart } from '@/graphql/types'
-import { useMusicStore } from '@/store/music-store'
+import { SongFragment, VoicePart } from '@/graphql/types';
+import { useMusicStore } from '@/store/music-store';
 import {
 	IonButton,
 	IonButtons,
@@ -10,8 +10,8 @@ import {
 	IonModal,
 	IonTitle,
 	IonToolbar
-} from '@ionic/vue'
-import { ref } from 'vue'
+} from '@ionic/vue';
+import { ref } from 'vue';
 
 const { song } = defineProps<{
 	song: SongFragment
@@ -82,7 +82,7 @@ const closeModal = () => (modalOpen.value = false)
 		gap: 12px;
 		align-items: baseline;
 		.title {
-			font-size: 150%;
+			font-size: 125%;
 		}
 		.tenor {
 			border-color: #9a9a00;
