@@ -23,7 +23,7 @@ class SongModel(ModelBase):
     title: Mapped[str] = mapped_column("song_name", String, nullable=False)
     """Name"""
 
-    voicing: Mapped[Optional[str]] = mapped_column("voicing", String, nullable=True)
+    voicing: Mapped[str] = mapped_column("voicing", String, nullable=False)
     """SSAA / SATB / TTBB"""
 
     contributors: Mapped[list[ContributorAssociation]] = relationship(lazy="selectin")
