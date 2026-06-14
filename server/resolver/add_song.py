@@ -36,7 +36,9 @@ async def learn_song(
 
         if song_data is not None:
             session.add(
-                UserSongAssociation(song_id=song_data.id, user_id=user_data.id, voice_part=voice_part)
+                UserSongAssociation(
+                    song_id=song_data.id, user_id=user_data.id, voice_part=voice_part
+                )
             )
             await session.commit()
             return LearnSongResult(SuccessFailure.SUCCESS, Song.marshal(song_data))
