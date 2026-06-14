@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils'
-import Tab1Page from '@/views/Tab1Page.vue'
+import UserTab from '@/views/UserTab.vue'
 import { describe, expect, test } from 'vitest'
 
-describe('Tab1Page.vue', () => {
-	test('renders tab 1 Tab1Page', () => {
-		const wrapper = mount(Tab1Page)
+describe('UserTab.vue', () => {
+	test('renders tab 1 UserTab', () => {
+		const wrapper = mount(UserTab)
 		expect(wrapper.text()).toMatch('Tab 1 page')
 	})
 })
