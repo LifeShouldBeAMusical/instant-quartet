@@ -18,7 +18,9 @@ onBeforeMount(() => {
 <template>
 	<div>
 		<div>Music Library</div>
-		<div>{{ music.length.toLocaleString() }} Songs</div>
+		<div>
+			{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
+		</div>
 		<div>
 			<song-button
 				v-for="song in myMusic"
