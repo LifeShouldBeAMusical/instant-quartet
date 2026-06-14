@@ -21,4 +21,4 @@ class UserSongAssociation(ModelBase):
         "voice_part", Enum(VoicePart), primary_key=True, nullable=False
     )
 
-    song: Mapped[SongModel] = relationship()
+    song: Mapped[SongModel] = relationship(lazy="selectin")

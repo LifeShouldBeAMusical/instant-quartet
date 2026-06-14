@@ -4,7 +4,7 @@ import strawberry
 @strawberry.input
 class SongInfo:
     title: str
-    voicing: str = strawberry.input(description="SSAA / SATB / TTBB / etc")
+    voicing: str
 
 
 @strawberry.input(one_of=True)

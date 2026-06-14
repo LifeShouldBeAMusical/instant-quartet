@@ -4,14 +4,14 @@ from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
 from data.data_connection import get_async_session
-from model.database import SongModel
-from model.enum import LoginStatus, SuccessFailure
+from model.database import SongModel, UserSongAssociation
+from model.enum import LoginStatus, SuccessFailure, VoicePart
 from model.strawberry import LearnSongResult, LoginResult, Song, SongInput
 from resolver.authenticate import get_authenticated_user
 
 
 async def learn_song(
-    song_input: SongInput, token: str
+    song_input: SongInput, voice_part: VoicePart, token: str
 ) -> Union[LoginResult, LearnSongResult]:
     async with get_async_session() as session:
         try:
@@ -32,9 +32,14 @@ async def learn_song(
             )
             session.add(song_data)
             await session.flush()
+            await session.refresh(song_data)
 
         if song_data is not None:
-            user_data.songs.append(song_data)
+            session.add(
+                UserSongAssociation(
+                    song_id=song_data.id, user_id=user_data.id, voice_part=voice_part
+                )
+            )
             await session.commit()
             return LearnSongResult(SuccessFailure.SUCCESS, Song.marshal(song_data))
 
