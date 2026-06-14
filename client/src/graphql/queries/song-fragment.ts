@@ -7,7 +7,6 @@ export const songFragment = gql`
 		stockId
 		voicing
 		contributors {
-			id
 			contributionType
 			contributorName
 		}

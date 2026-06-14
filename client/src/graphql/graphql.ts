@@ -99,11 +99,7 @@ export type SongFragment = {
 	title: string
 	stockId: number | null
 	voicing: string
-	contributors: Array<{
-		id: string
-		contributionType: string
-		contributorName: string
-	}>
+	contributors: Array<{ contributionType: string; contributorName: string }>
 } & { ' $fragmentName'?: 'SongFragment' }
 
 export type UserInfoQueryVariables = Exact<{
@@ -139,7 +135,6 @@ export const SongFragmentDoc = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'contributionType' }
@@ -206,7 +201,6 @@ export const MySongFragmentDoc = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'contributionType' }
@@ -269,7 +263,6 @@ export const AllSongsDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'contributionType' }
@@ -406,7 +399,6 @@ export const LearnSongDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'contributionType' }
@@ -594,7 +586,6 @@ export const MySongsDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{
 									kind: 'Field',
 									name: { kind: 'Name', value: 'contributionType' }
