@@ -16,3 +16,6 @@ class ContributorModel(ModelBase):
 
     person_name: Mapped[str] = mapped_column("person_name", String, nullable=False)
     """Name"""
+
+    def __init__(self, person_name: str) -> "ContributorModel":
+        self.person_name = person_name

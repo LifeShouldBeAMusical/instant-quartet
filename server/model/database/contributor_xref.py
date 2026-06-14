@@ -21,3 +21,9 @@ class ContributorAssociation(ModelBase):
     """Composer / Lyricist / Arranger"""
 
     contributor: Mapped[ContributorModel] = relationship()
+
+    def __init__(
+        self, contributor: ContributorModel, contrib_type: str
+    ) -> "ContributorAssociation":
+        self.contributor_id = contributor.id
+        self.contribution_type = contrib_type

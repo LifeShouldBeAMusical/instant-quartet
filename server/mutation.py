@@ -1,6 +1,6 @@
 import strawberry
 
-from resolver import learn_song, login, register_user
+from resolver import learn_song, login, register_user, update_song_info
 
 
 @strawberry.type
@@ -11,4 +11,7 @@ class AppMutation:
 
     learn_song = strawberry.mutation(
         resolver=learn_song, description="Add Song to User List"
+    )
+    update_song = strawberry.mutation(
+        resolver=update_song_info, description="Update Song"
     )
