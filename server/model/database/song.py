@@ -28,6 +28,14 @@ class SongModel(ModelBase):
 
     contributors: Mapped[list[ContributorAssociation]] = relationship(lazy="selectin")
 
-    def __init__(self, title: str, voicing: Optional[str]):
+    def __init__(
+        self,
+        title: str,
+        voicing: Optional[str],
+        stock_id: Optional[int],
+        contributors: Optional[list[ContributorAssociation]],
+    ):
         self.title = title
+        self.stock_id = stock_id
         self.voicing = voicing
+        self.contributors = contributors
