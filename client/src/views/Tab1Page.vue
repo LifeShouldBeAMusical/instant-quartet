@@ -14,7 +14,9 @@ import { computed, onBeforeMount, ref } from 'vue'
 const store = useUserStore()
 
 const token = computed(() => store.token)
-const userInfo = computed(() => store.userInfo)
+const userInfo = computed(() =>
+	store.userInfo && 'username' in store.userInfo ? store.userInfo : undefined
+)
 
 const displayName = ref()
 const username = ref()
@@ -53,7 +55,7 @@ onBeforeMount(() => store.fetchUserInfo())
 
 			<template v-if="token">
 				<div v-if="userInfo">
-					{{ userInfo }}
+					Hi, {{ userInfo.displayName ?? userInfo.username }}!
 				</div>
 			</template>
 			<template v-else>
