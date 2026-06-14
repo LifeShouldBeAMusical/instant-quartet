@@ -30,6 +30,11 @@ export type AllSongsQuery = {
 		title: string
 		stockId: number | null
 		voicing: string
+		contributors: Array<{
+			id: string
+			contributionType: string
+			contributorName: string
+		}>
 	}>
 }
 
@@ -49,6 +54,11 @@ export type LearnSongMutation = {
 					title: string
 					stockId: number | null
 					voicing: string
+					contributors: Array<{
+						id: string
+						contributionType: string
+						contributorName: string
+					}>
 				} | null
 		  }
 		| Record<PropertyKey, never>
@@ -78,6 +88,11 @@ export type MySongsQuery = {
 						title: string
 						stockId: number | null
 						voicing: string
+						contributors: Array<{
+							id: string
+							contributionType: string
+							contributorName: string
+						}>
 					}
 				}>
 		  }
@@ -85,7 +100,17 @@ export type MySongsQuery = {
 
 export type MySongFragment = {
 	parts: Array<VoicePart>
-	song: { id: string; title: string; stockId: number | null; voicing: string }
+	song: {
+		id: string
+		title: string
+		stockId: number | null
+		voicing: string
+		contributors: Array<{
+			id: string
+			contributionType: string
+			contributorName: string
+		}>
+	}
 }
 
 export type RegisterMutationVariables = Exact<{
@@ -103,6 +128,11 @@ export type SongFragment = {
 	title: string
 	stockId: number | null
 	voicing: string
+	contributors: Array<{
+		id: string
+		contributionType: string
+		contributorName: string
+	}>
 }
 
 export type UserInfoQueryVariables = Exact<{

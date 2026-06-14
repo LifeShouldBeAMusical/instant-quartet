@@ -86,6 +86,11 @@ export type SongFragment = {
 	title: string
 	stockId: number | null
 	voicing: string
+	contributors: Array<{
+		id: string
+		contributionType: string
+		contributorName: string
+	}>
 } & { ' $fragmentName'?: 'SongFragment' }
 
 export type UserInfoQueryVariables = Exact<{
@@ -114,7 +119,25 @@ export const SongFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributionType' }
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributorName' }
+								}
+							]
+						}
+					}
 				]
 			}
 		}
@@ -163,7 +186,25 @@ export const MySongFragmentDoc = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributionType' }
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributorName' }
+								}
+							]
+						}
+					}
 				]
 			}
 		}
@@ -208,7 +249,25 @@ export const AllSongsDocument = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributionType' }
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributorName' }
+								}
+							]
+						}
+					}
 				]
 			}
 		}
@@ -349,7 +408,25 @@ export const LearnSongDocument = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributionType' }
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributorName' }
+								}
+							]
+						}
+					}
 				]
 			}
 		}
@@ -519,7 +596,25 @@ export const MySongsDocument = {
 					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributionType' }
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contributorName' }
+								}
+							]
+						}
+					}
 				]
 			}
 		},
