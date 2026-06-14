@@ -76,19 +76,13 @@ export type LearnSongResult = {
 
 export type LoginResult = {
 	__typename?: 'LoginResult'
-	status: LoginStatus
+	status: Scalars['String']['output']
 	token?: Maybe<Scalars['String']['output']>
 }
 
 export type LoginResultLearnSongResult = LearnSongResult | LoginResult
 
 export type LoginResultShareInfo = LoginResult | ShareInfo
-
-export enum LoginStatus {
-	LoginFailure = 'LOGIN_FAILURE',
-	LoginSuccess = 'LOGIN_SUCCESS',
-	UserNotFound = 'USER_NOT_FOUND'
-}
 
 export type ShareInfo = {
 	__typename?: 'ShareInfo'
@@ -187,12 +181,22 @@ export type SongFragment = {
 	voicing: string
 }
 
-export type LogInMutationVariables = Exact<{
+export type LoginMutationVariables = Exact<{
 	password: string
 	username: string
 }>
 
-export type LogInMutation = { login: { token: string | null } }
+export type LoginMutation = { login: { status: string; token: string | null } }
+
+export type RegisterMutationVariables = Exact<{
+	displayName?: string | null | undefined
+	password: string
+	username: string
+}>
+
+export type RegisterMutation = {
+	register: { status: string; token: string | null }
+}
 
 export type UserInfoQueryVariables = Exact<{
 	token: string
@@ -200,6 +204,6 @@ export type UserInfoQueryVariables = Exact<{
 
 export type UserInfoQuery = {
 	shareInfo:
+		| { status: string }
 		| { displayName: string | null; username: string }
-		| Record<PropertyKey, never>
 }

@@ -7,6 +7,9 @@ export const userInfoQuery = gql`
 				displayName
 				username
 			}
+			... on LoginResult {
+				status
+			}
 		}
 	}
 `

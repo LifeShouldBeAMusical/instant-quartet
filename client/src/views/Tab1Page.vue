@@ -15,14 +15,18 @@ const store = useUserStore()
 
 const token = computed(() => store.token)
 
+const displayName = ref()
 const username = ref()
 const password = ref()
 
 const login = () => {
 	if (username.value && password.value) {
 		store.login({ username: username.value, password: password.value })
-	} else {
-		console.log('Values Missing')
+	}
+}
+const register = () => {
+	if (username.value && password.value) {
+store.register({displayName : displayName.value, username: username.value, password: password.value})
 	}
 }
 </script>
@@ -49,9 +53,12 @@ const login = () => {
 				<ion-input
 					label="Password"
 					type="password"
-					v-model="password" required
+					v-model="password"
+					required
 				></ion-input>
-				<ion-button @click="login">Log In</ion-button>
+				<ion-button @click="login">Login</ion-button>
+				<ion-input label="Display Name" v-model="displayName"></ion-input>
+				<ion-button @click="register">Register</ion-button>
 			</template>
 		</ion-content>
 	</ion-page>

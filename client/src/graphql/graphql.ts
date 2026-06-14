@@ -20,12 +20,22 @@ export type SongFragment = {
 	voicing: string
 } & { ' $fragmentName'?: 'SongFragment' }
 
-export type LogInMutationVariables = Exact<{
+export type LoginMutationVariables = Exact<{
 	password: string
 	username: string
 }>
 
-export type LogInMutation = { login: { token: string | null } }
+export type LoginMutation = { login: { status: string; token: string | null } }
+
+export type RegisterMutationVariables = Exact<{
+	displayName?: string | null | undefined
+	password: string
+	username: string
+}>
+
+export type RegisterMutation = {
+	register: { status: string; token: string | null }
+}
 
 export type UserInfoQueryVariables = Exact<{
 	token: string
@@ -33,8 +43,8 @@ export type UserInfoQueryVariables = Exact<{
 
 export type UserInfoQuery = {
 	shareInfo:
+		| { status: string }
 		| { displayName: string | null; username: string }
-		| Record<PropertyKey, never>
 }
 
 export const SongFragmentDoc = {
@@ -104,13 +114,13 @@ export const AllSongsDocument = {
 		}
 	]
 } as unknown as DocumentNode<AllSongsQuery, AllSongsQueryVariables>
-export const LogInDocument = {
+export const LoginDocument = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'OperationDefinition',
 			operation: 'mutation',
-			name: { kind: 'Name', value: 'LogIn' },
+			name: { kind: 'Name', value: 'Login' },
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
@@ -162,6 +172,7 @@ export const LogInDocument = {
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'token' } }
 							]
 						}
@@ -170,7 +181,91 @@ export const LogInDocument = {
 			}
 		}
 	]
-} as unknown as DocumentNode<LogInMutation, LogInMutationVariables>
+} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>
+export const RegisterDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'Register' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'displayName' }
+					},
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'password' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'username' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'register' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'password' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'password' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'username' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'username' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'displayName' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'displayName' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'status' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'token' } }
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>
 export const UserInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -227,6 +322,19 @@ export const UserInfoDocument = {
 												kind: 'Field',
 												name: { kind: 'Name', value: 'username' }
 											}
+										]
+									}
+								},
+								{
+									kind: 'InlineFragment',
+									typeCondition: {
+										kind: 'NamedType',
+										name: { kind: 'Name', value: 'LoginResult' }
+									},
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'status' } }
 										]
 									}
 								}
