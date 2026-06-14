@@ -16,7 +16,7 @@ class ContributorAssociation(ModelBase):
     )
 
     contribution_type: Mapped[str] = mapped_column(
-        "contribution_type", String, nullable=False
+        "contribution_type", String, primary_key=True, nullable=False
     )
     """Composer / Lyricist / Arranger"""
 
