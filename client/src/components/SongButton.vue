@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SongFragment, VoicePart } from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
+import { useUserStore } from '@/store/user-store'
 import {
 	IonButton,
 	IonButtons,
@@ -11,7 +12,7 @@ import {
 	IonTitle,
 	IonToolbar
 } from '@ionic/vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const { song } = defineProps<{
 	song: SongFragment
@@ -19,6 +20,8 @@ const { song } = defineProps<{
 }>()
 
 const musicStore = useMusicStore()
+const userStore = useUserStore()
+const token = computed(() => userStore.token)
 
 const modalOpen = ref(false)
 
@@ -46,8 +49,8 @@ const closeModal = () => (modalOpen.value = false)
 				>
 			</div>
 		</div>
-		<ion-button @click="openModal">Learn</ion-button>
-		<ion-modal :is-open="modalOpen">
+		<ion-button v-if="token" @click="openModal">Learn</ion-button>
+		<ion-modal :is-open="token && modalOpen">
 			<ion-header>
 				<ion-toolbar>
 					<ion-title>Learn {{ song.title }}</ion-title>
