@@ -1,4 +1,3 @@
-
 import strawberry
 
 from model.database import ContributorAssociation
@@ -19,4 +18,3 @@ class Contributor:
             contribution_type=model.contribution_type,
             contributor_name=model.contributor.person_name,
         )
-
