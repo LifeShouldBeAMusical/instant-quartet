@@ -2,11 +2,13 @@ from typing import Generic, Optional, TypeVar
 
 import strawberry
 
+from model.enum import ContributionType
+
 
 @strawberry.input
 class SongContributor:
     contributor_name: str
-    contribution_type: str
+    contribution_type: ContributionType
 
 
 T = TypeVar("T")
