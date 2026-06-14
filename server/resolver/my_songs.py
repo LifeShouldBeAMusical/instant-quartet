@@ -17,12 +17,4 @@ async def fetch_my_songs(token: str) -> Union[SongList, LoginResult]:
         except NoResultFound:
             return LoginResult(LoginStatus.LOGIN_FAILURE)
 
-        songs = (
-            await session.scalars(
-                select(UserSongAssociation).where(
-                    UserSongAssociation.user_id == user_data.id
-                )
-            )
-        ).all()
-
-        return SongList.marshal(songs)
+        return SongList.marshal(user_data.songs)

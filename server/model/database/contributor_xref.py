@@ -20,7 +20,7 @@ class ContributorAssociation(ModelBase):
     )
     """Composer / Lyricist / Arranger"""
 
-    contributor: Mapped[ContributorModel] = relationship()
+    contributor: Mapped[ContributorModel] = relationship(lazy="selectin")
 
     def __init__(
         self, contributor: ContributorModel, contrib_type: str

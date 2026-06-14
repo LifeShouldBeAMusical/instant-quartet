@@ -35,9 +35,9 @@ async def learn_song(
             await session.refresh(song_data)
 
         if song_data is not None:
-            session.add(
+            user_data.songs.append(
                 UserSongAssociation(
-                    song_id=song_data.id, user_id=user_data.id, voice_part=voice_part
+                    song=song_data, user_id=user_data.id, voice_part=voice_part
                 )
             )
             await session.commit()

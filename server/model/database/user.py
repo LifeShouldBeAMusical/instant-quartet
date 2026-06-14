@@ -32,7 +32,7 @@ class UserModel(ModelBase):
         "auth_token_exp", TIMESTAMP(timezone=True), nullable=True
     )
 
-    songs: Mapped[List[UserSongAssociation]] = relationship()
+    songs: Mapped[List[UserSongAssociation]] = relationship(lazy="selectin")
 
     def __init__(self, username: str, display_name: Optional[str], password_hash: str):
         self.username = username
