@@ -65,6 +65,13 @@ export const useMusicStore = defineStore('music-store', () => {
 		learnSongMutate({ songInput, voicePart, token: userStore.token })
 	onSongLearned(() => {
 		loadMusic(allSongsQuery, {}, { fetchPolicy: 'network-only' })
+		if (userStore.token) {
+			loadMyMusic(
+				mySongsQuery,
+				{ token: userStore.token },
+				{ fetchPolicy: 'network-only' }
+			)
+		}
 	})
 
 	return { fetchMusic, music, fetchMyMusic, myMusic, myMusicIds, learnSong }
