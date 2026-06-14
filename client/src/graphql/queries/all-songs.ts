@@ -1,3 +1,4 @@
+import { songFragment } from '@/graphql/queries/song-fragment'
 import gql from 'graphql-tag'
 
 export const allSongsQuery = gql`
@@ -7,10 +8,5 @@ export const allSongsQuery = gql`
 		}
 	}
 
-	fragment Song on Song {
-		id
-		title
-		stockId
-		voicing
-	}
+	${songFragment}
 `

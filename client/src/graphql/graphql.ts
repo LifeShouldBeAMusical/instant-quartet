@@ -9,18 +9,41 @@ export type Incremental<T> =
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
 
+export type SongInfo = {
+	title: string
+	voicing: string
+}
+
+export type SongInput = {
+	id?: number | null | undefined
+	info?: SongInfo | null | undefined
+}
+
+export type SuccessFailure = 'FAILURE' | 'SUCCESS'
+
+export type VoicePart = 'BARI' | 'BASS' | 'LEAD' | 'TENOR'
+
 export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllSongsQuery = {
 	allSongs: Array<{ ' $fragmentRefs'?: { SongFragment: SongFragment } }>
 }
 
-export type SongFragment = {
-	id: string
-	title: string
-	stockId: number | null
-	voicing: string
-} & { ' $fragmentName'?: 'SongFragment' }
+export type LearnSongMutationVariables = Exact<{
+	songInput: SongInput
+	token: string
+	voicePart: VoicePart
+}>
+
+export type LearnSongMutation = {
+	learnSong:
+		| {
+				__typename: 'LearnSongResult'
+				status: SuccessFailure
+				song: { ' $fragmentRefs'?: { SongFragment: SongFragment } } | null
+		  }
+		| Record<PropertyKey, never>
+}
 
 export type LoginMutationVariables = Exact<{
 	password: string
@@ -40,6 +63,13 @@ export type RegisterMutationVariables = Exact<{
 export type RegisterMutation = {
 	register: { status: LoginStatus; token: string | null }
 }
+
+export type SongFragment = {
+	id: string
+	title: string
+	stockId: number | null
+	voicing: string
+} & { ' $fragmentName'?: 'SongFragment' }
 
 export type UserInfoQueryVariables = Exact<{
 	token: string
@@ -118,6 +148,147 @@ export const AllSongsDocument = {
 		}
 	]
 } as unknown as DocumentNode<AllSongsQuery, AllSongsQueryVariables>
+export const LearnSongDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'LearnSong' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'songInput' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'SongInput' }
+						}
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'token' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'voicePart' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'NamedType',
+							name: { kind: 'Name', value: 'VoicePart' }
+						}
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'learnSong' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'songInput' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'songInput' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'token' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'token' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'voicePart' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'voicePart' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'InlineFragment',
+									typeCondition: {
+										kind: 'NamedType',
+										name: { kind: 'Name', value: 'LearnSongResult' }
+									},
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: '__typename' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'status' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'song' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'FragmentSpread',
+															name: { kind: 'Name', value: 'Song' }
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<LearnSongMutation, LearnSongMutationVariables>
 export const LoginDocument = {
 	kind: 'Document',
 	definitions: [

@@ -26,14 +26,9 @@ const register = () => {
 </script>
 
 <template>
-	<ion-input label="Username" v-model="username" required></ion-input>
-	<ion-input
-		label="Password"
-		type="password"
-		v-model="password"
-		required
-	></ion-input>
+	<ion-input label="Username" v-model="username" required />
+	<ion-input label="Password" type="password" v-model="password" required />
 	<ion-button @click="login">Login</ion-button>
-	<ion-input label="Display Name" v-model="displayName"></ion-input>
+	<ion-input label="Display Name" v-model="displayName" />
 	<ion-button @click="register">Register</ion-button>
 </template>

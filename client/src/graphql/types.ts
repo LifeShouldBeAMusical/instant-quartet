@@ -8,6 +8,20 @@ export type Incremental<T> =
 	  }
 export type LoginStatus = 'LOGIN_FAILURE' | 'LOGIN_SUCCESS' | 'USER_NOT_FOUND'
 
+export type SongInfo = {
+	title: string
+	voicing: string
+}
+
+export type SongInput = {
+	id?: number | null | undefined
+	info?: SongInfo | null | undefined
+}
+
+export type SuccessFailure = 'FAILURE' | 'SUCCESS'
+
+export type VoicePart = 'BARI' | 'BASS' | 'LEAD' | 'TENOR'
+
 export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
 
 export type AllSongsQuery = {
@@ -19,11 +33,25 @@ export type AllSongsQuery = {
 	}>
 }
 
-export type SongFragment = {
-	id: string
-	title: string
-	stockId: number | null
-	voicing: string
+export type LearnSongMutationVariables = Exact<{
+	songInput: SongInput
+	token: string
+	voicePart: VoicePart
+}>
+
+export type LearnSongMutation = {
+	learnSong:
+		| {
+				__typename: 'LearnSongResult'
+				status: SuccessFailure
+				song: {
+					id: string
+					title: string
+					stockId: number | null
+					voicing: string
+				} | null
+		  }
+		| Record<PropertyKey, never>
 }
 
 export type LoginMutationVariables = Exact<{
@@ -43,6 +71,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = {
 	register: { status: LoginStatus; token: string | null }
+}
+
+export type SongFragment = {
+	id: string
+	title: string
+	stockId: number | null
+	voicing: string
 }
 
 export type UserInfoQueryVariables = Exact<{
