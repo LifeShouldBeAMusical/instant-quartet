@@ -33,18 +33,19 @@ async def learn_song(
             ).one()
         elif song_input.info is not None:
             contributors: list[ContributorAssociation] = []
-            for c in song_input.info.value.contributors:
-                person = (
-                    await session.scalars(
-                        select(ContributorModel).where(
-                            ContributorModel.person_name == c.contributor_name
+            if song_input.info.value.contributors is not None:
+                for c in song_input.info.value.contributors:
+                    person = (
+                        await session.scalars(
+                            select(ContributorModel).where(
+                                ContributorModel.person_name == c.contributor_name
+                            )
                         )
-                    )
-                ).one_or_none() or ContributorModel(c.contributor_name)
-                session.add(person)
-                await session.flush()
-                await session.refresh(person)
-                contributors.append(ContributorAssociation(person, c.contribution_type))
+                    ).one_or_none() or ContributorModel(c.contributor_name)
+                    session.add(person)
+                    await session.flush()
+                    await session.refresh(person)
+                    contributors.append(ContributorAssociation(person, c.contribution_type))
 
             song_data = SongModel(
                 title=song_input.info.value.title,
