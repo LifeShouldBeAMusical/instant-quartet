@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ContributorFragment } from '@/graphql/types'
+import { ContributorGroup } from '@/util/group-contributors'
+import joinList from '@/util/join-list'
 
 defineProps<{
-	contributor: ContributorFragment
+	contributor: ContributorGroup
 }>()
 </script>
 
@@ -17,17 +18,17 @@ defineProps<{
 			>
 				Words and Music by
 			</template>
-			<template v-else-if="contributor.contributionType.includes('COMPOSER')"
-				>Music by</template
-			>
-			<template v-else-if="contributor.contributionType.includes('LYRICIST')"
-				>Lyrics by</template
-			>
-			<template v-else-if="contributor.contributionType.includes('ARRANGER')"
-				>Arr</template
-			>
+			<template v-else-if="contributor.contributionType.includes('COMPOSER')">
+				Music by
+			</template>
+			<template v-else-if="contributor.contributionType.includes('LYRICIST')">
+				Lyrics by
+			</template>
+			<template v-else-if="contributor.contributionType.includes('ARRANGER')">
+				Arr
+			</template>
 		</div>
-		<div>{{ contributor.contributorName }}</div>
+		<div>{{ joinList(contributor.contributorName) }}</div>
 	</div>
 </template>
 

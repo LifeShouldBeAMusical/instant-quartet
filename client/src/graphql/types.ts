@@ -45,8 +45,7 @@ export type AllSongsQuery = {
 		stockId: number | null
 		voicing: string
 		contributors: Array<{
-			id: string
-			contributionType: Array<ContributionType>
+			contributionType: ContributionType
 			contributorName: string
 		}>
 	}>
@@ -68,8 +67,7 @@ export type LearnSongMutation = {
 					stockId: number | null
 					voicing: string
 					contributors: Array<{
-						id: string
-						contributionType: Array<ContributionType>
+						contributionType: ContributionType
 						contributorName: string
 					}>
 				} | null
@@ -102,8 +100,7 @@ export type MySongsQuery = {
 						stockId: number | null
 						voicing: string
 						contributors: Array<{
-							id: string
-							contributionType: Array<ContributionType>
+							contributionType: ContributionType
 							contributorName: string
 						}>
 					}
@@ -119,8 +116,7 @@ export type MySongFragment = {
 		stockId: number | null
 		voicing: string
 		contributors: Array<{
-			id: string
-			contributionType: Array<ContributionType>
+			contributionType: ContributionType
 			contributorName: string
 		}>
 	}
@@ -142,15 +138,13 @@ export type SongFragment = {
 	stockId: number | null
 	voicing: string
 	contributors: Array<{
-		id: string
-		contributionType: Array<ContributionType>
+		contributionType: ContributionType
 		contributorName: string
 	}>
 }
 
-export type ContributorFragment = {
-	id: string
-	contributionType: Array<ContributionType>
+export type ContributorXrefFragment = {
+	contributionType: ContributionType
 	contributorName: string
 }
 

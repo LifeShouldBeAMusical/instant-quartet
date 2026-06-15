@@ -100,15 +100,14 @@ export type SongFragment = {
 	stockId: number | null
 	voicing: string
 	contributors: Array<{
-		' $fragmentRefs'?: { ContributorFragment: ContributorFragment }
+		' $fragmentRefs'?: { ContributorXrefFragment: ContributorXrefFragment }
 	}>
 } & { ' $fragmentName'?: 'SongFragment' }
 
-export type ContributorFragment = {
-	id: string
-	contributionType: Array<ContributionType>
+export type ContributorXrefFragment = {
+	contributionType: ContributionType
 	contributorName: string
-} & { ' $fragmentName'?: 'ContributorFragment' }
+} & { ' $fragmentName'?: 'ContributorXrefFragment' }
 
 export type UserInfoQueryVariables = Exact<{
 	token: string
@@ -120,12 +119,12 @@ export type UserInfoQuery = {
 		| { displayName: string | null; username: string }
 }
 
-export const ContributorFragmentDoc = {
+export const ContributorXrefFragmentDoc = {
 	kind: 'Document',
 	definitions: [
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -133,14 +132,13 @@ export const ContributorFragmentDoc = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
 			}
 		}
 	]
-} as unknown as DocumentNode<ContributorFragment, unknown>
+} as unknown as DocumentNode<ContributorXrefFragment, unknown>
 export const SongFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -166,7 +164,7 @@ export const SongFragmentDoc = {
 							selections: [
 								{
 									kind: 'FragmentSpread',
-									name: { kind: 'Name', value: 'Contributor' }
+									name: { kind: 'Name', value: 'ContributorXref' }
 								}
 							]
 						}
@@ -176,7 +174,7 @@ export const SongFragmentDoc = {
 		},
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -184,7 +182,6 @@ export const SongFragmentDoc = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
@@ -224,7 +221,7 @@ export const MySongFragmentDoc = {
 		},
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -232,7 +229,6 @@ export const MySongFragmentDoc = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
@@ -260,7 +256,7 @@ export const MySongFragmentDoc = {
 							selections: [
 								{
 									kind: 'FragmentSpread',
-									name: { kind: 'Name', value: 'Contributor' }
+									name: { kind: 'Name', value: 'ContributorXref' }
 								}
 							]
 						}
@@ -298,7 +294,7 @@ export const AllSongsDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -306,7 +302,6 @@ export const AllSongsDocument = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
@@ -334,7 +329,7 @@ export const AllSongsDocument = {
 							selections: [
 								{
 									kind: 'FragmentSpread',
-									name: { kind: 'Name', value: 'Contributor' }
+									name: { kind: 'Name', value: 'ContributorXref' }
 								}
 							]
 						}
@@ -446,7 +441,7 @@ export const LearnSongDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -454,7 +449,6 @@ export const LearnSongDocument = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
@@ -482,7 +476,7 @@ export const LearnSongDocument = {
 							selections: [
 								{
 									kind: 'FragmentSpread',
-									name: { kind: 'Name', value: 'Contributor' }
+									name: { kind: 'Name', value: 'ContributorXref' }
 								}
 							]
 						}
@@ -645,7 +639,7 @@ export const MySongsDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'Contributor' },
+			name: { kind: 'Name', value: 'ContributorXref' },
 			typeCondition: {
 				kind: 'NamedType',
 				name: { kind: 'Name', value: 'Contributor' }
@@ -653,7 +647,6 @@ export const MySongsDocument = {
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
 					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
@@ -681,7 +674,7 @@ export const MySongsDocument = {
 							selections: [
 								{
 									kind: 'FragmentSpread',
-									name: { kind: 'Name', value: 'Contributor' }
+									name: { kind: 'Name', value: 'ContributorXref' }
 								}
 							]
 						}
