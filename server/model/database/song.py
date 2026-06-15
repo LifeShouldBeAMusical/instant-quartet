@@ -40,7 +40,7 @@ class SongModel(ModelBase):
         contributors: Optional[list[ContributorAssociation]],
     ):
         self.title = title
-        self.title_sort = re.sub(r"^(A|An|The|\(.+?\)) (.+)$", r"\2", title)
+        self.title_sort = re.sub(r"^(A|An|The|\(.+?\)|'|\.+) (.+)$", r"\2", title)
         self.stock_id = stock_id
         self.voicing = voicing
         self.contributors = contributors
