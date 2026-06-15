@@ -45,7 +45,9 @@ async def learn_song(
                     session.add(person)
                     await session.flush()
                     await session.refresh(person)
-                    contributors.append(ContributorAssociation(person, c.contribution_type))
+                    contributors.append(
+                        ContributorAssociation(person, c.contribution_type)
+                    )
 
             song_data = SongModel(
                 title=song_input.info.value.title,

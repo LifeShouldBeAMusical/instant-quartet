@@ -1,3 +1,5 @@
+from typing import Optional
+
 import strawberry
 
 from model.database import SongModel, UserModel
@@ -11,6 +13,18 @@ class SharedSongVoice:
     lead: list[str] = strawberry.field(description="Usernames")
     bari: list[str] = strawberry.field(description="Usernames")
     bass: list[str] = strawberry.field(description="Usernames")
+
+    def __init__(
+        self,
+        tenor: Optional[list[str]] = None,
+        lead: Optional[list[str]] = None,
+        bari: Optional[list[str]] = None,
+        bass: Optional[list[str]] = None,
+    ):
+        self.tenor = tenor or []
+        self.lead = lead or []
+        self.bari = bari or []
+        self.bass = bass or []
 
 
 @strawberry.type
@@ -55,21 +69,24 @@ class SharedSongList:
                         song_dict[song_asc.song_id].voice_parts.tenor.append(
                             user.username
                         )
-                        break
+
                     case VoicePart.LEAD:
                         song_dict[song_asc.song_id].voice_parts.lead.append(
                             user.username
                         )
-                        break
+
                     case VoicePart.BARI:
                         song_dict[song_asc.song_id].voice_parts.bari.append(
                             user.username
                         )
-                        break
+
                     case VoicePart.BASS:
                         song_dict[song_asc.song_id].voice_parts.bass.append(
                             user.username
                         )
-                        break
 
-        return cls(songs=sorted(song_dict.items(), lambda x: x.distinct_user_count()))
+        return cls(
+            songs=sorted(
+                song_dict.values(), key=lambda x: x.distinct_user_count(), reverse=True
+            )
+        )
