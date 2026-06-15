@@ -18,6 +18,7 @@ type Documents = {
 	'\n\tmutation Login($password: String!, $username: String!) {\n\t\tlogin(password: $password, username: $username) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n': typeof types.LoginDocument
 	'\n\tquery MySongs($token: String!) {\n\t\tmySongs(token: $token) {\n\t\t\t... on SongList {\n\t\t\t\tsongs {\n\t\t\t\t\t...MySong\n\t\t\t\t}\n\t\t\t}\n\t\t\t... on LoginResult {\n\t\t\t\tstatus\n\t\t\t}\n\t\t}\n\t}\n\n\tfragment MySong on SongListItem {\n\t\tparts\n\t\tsong {\n\t\t\t...Song\n\t\t}\n\t}\n\n\t\n': typeof types.MySongsDocument
 	'\n\tmutation Register(\n\t\t$displayName: String\n\t\t$password: String!\n\t\t$username: String!\n\t) {\n\t\tregister(\n\t\t\tpassword: $password\n\t\t\tusername: $username\n\t\t\tdisplayName: $displayName\n\t\t) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n': typeof types.RegisterDocument
+	'\nquery SharedSongs($token: String!, $usernames: [String!]!) {\n  sharedSongs(token: $token, usernames: $usernames) {\n    ... on SharedSongList {\n      __typename\n      songs {\n        distinctUserCount\n        distinctUsers\n        song {\n          ...Song\n        }\n        voiceParts {\n          tenor\n          lead\n          bari\n          bass\n        }\n      }\n    }\n  }\n}\n\t\n': typeof types.SharedSongsDocument
 	'\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t\tcontributors {\n\t\t\t...ContributorXref\n\t\t}\n\t}\n\n\tfragment ContributorXref on Contributor {\n\t\tcontributionType\n\t\tcontributorName\n\t}\n': typeof types.SongFragmentDoc
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t\t... on LoginResult {\n\t\t\t\tstatus\n\t\t\t}\n\t\t}\n\t}\n': typeof types.UserInfoDocument
 }
@@ -32,6 +33,8 @@ const documents: Documents = {
 		types.MySongsDocument,
 	'\n\tmutation Register(\n\t\t$displayName: String\n\t\t$password: String!\n\t\t$username: String!\n\t) {\n\t\tregister(\n\t\t\tpassword: $password\n\t\t\tusername: $username\n\t\t\tdisplayName: $displayName\n\t\t) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n':
 		types.RegisterDocument,
+	'\nquery SharedSongs($token: String!, $usernames: [String!]!) {\n  sharedSongs(token: $token, usernames: $usernames) {\n    ... on SharedSongList {\n      __typename\n      songs {\n        distinctUserCount\n        distinctUsers\n        song {\n          ...Song\n        }\n        voiceParts {\n          tenor\n          lead\n          bari\n          bass\n        }\n      }\n    }\n  }\n}\n\t\n':
+		types.SharedSongsDocument,
 	'\n\tfragment Song on Song {\n\t\tid\n\t\ttitle\n\t\tstockId\n\t\tvoicing\n\t\tcontributors {\n\t\t\t...ContributorXref\n\t\t}\n\t}\n\n\tfragment ContributorXref on Contributor {\n\t\tcontributionType\n\t\tcontributorName\n\t}\n':
 		types.SongFragmentDoc,
 	'\n\tquery UserInfo($token: String!) {\n\t\tshareInfo(token: $token) {\n\t\t\t... on ShareInfo {\n\t\t\t\tdisplayName\n\t\t\t\tusername\n\t\t\t}\n\t\t\t... on LoginResult {\n\t\t\t\tstatus\n\t\t\t}\n\t\t}\n\t}\n':
@@ -82,6 +85,12 @@ export function gql(
 export function gql(
 	source: '\n\tmutation Register(\n\t\t$displayName: String\n\t\t$password: String!\n\t\t$username: String!\n\t) {\n\t\tregister(\n\t\t\tpassword: $password\n\t\t\tusername: $username\n\t\t\tdisplayName: $displayName\n\t\t) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n'
 ): (typeof documents)['\n\tmutation Register(\n\t\t$displayName: String\n\t\t$password: String!\n\t\t$username: String!\n\t) {\n\t\tregister(\n\t\t\tpassword: $password\n\t\t\tusername: $username\n\t\t\tdisplayName: $displayName\n\t\t) {\n\t\t\tstatus\n\t\t\ttoken\n\t\t}\n\t}\n']
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+	source: '\nquery SharedSongs($token: String!, $usernames: [String!]!) {\n  sharedSongs(token: $token, usernames: $usernames) {\n    ... on SharedSongList {\n      __typename\n      songs {\n        distinctUserCount\n        distinctUsers\n        song {\n          ...Song\n        }\n        voiceParts {\n          tenor\n          lead\n          bari\n          bass\n        }\n      }\n    }\n  }\n}\n\t\n'
+): (typeof documents)['\nquery SharedSongs($token: String!, $usernames: [String!]!) {\n  sharedSongs(token: $token, usernames: $usernames) {\n    ... on SharedSongList {\n      __typename\n      songs {\n        distinctUserCount\n        distinctUsers\n        song {\n          ...Song\n        }\n        voiceParts {\n          tenor\n          lead\n          bari\n          bass\n        }\n      }\n    }\n  }\n}\n\t\n']
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

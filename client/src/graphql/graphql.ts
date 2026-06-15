@@ -94,6 +94,30 @@ export type RegisterMutation = {
 	register: { status: LoginStatus; token: string | null }
 }
 
+export type SharedSongsQueryVariables = Exact<{
+	token: string
+	usernames: Array<string> | string
+}>
+
+export type SharedSongsQuery = {
+	sharedSongs:
+		| {
+				__typename: 'SharedSongList'
+				songs: Array<{
+					distinctUserCount: number
+					distinctUsers: Array<string>
+					song: { ' $fragmentRefs'?: { SongFragment: SongFragment } }
+					voiceParts: {
+						tenor: Array<string>
+						lead: Array<string>
+						bari: Array<string>
+						bass: Array<string>
+					}
+				}>
+		  }
+		| Record<PropertyKey, never>
+}
+
 export type SongFragment = {
 	id: string
 	title: string
@@ -795,6 +819,197 @@ export const RegisterDocument = {
 		}
 	]
 } as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>
+export const SharedSongsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'SharedSongs' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'token' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+					}
+				},
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'usernames' }
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'String' }
+								}
+							}
+						}
+					}
+				}
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'sharedSongs' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'token' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'token' }
+								}
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'usernames' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'usernames' }
+								}
+							}
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'InlineFragment',
+									typeCondition: {
+										kind: 'NamedType',
+										name: { kind: 'Name', value: 'SharedSongList' }
+									},
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: '__typename' }
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'songs' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'distinctUserCount' }
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'distinctUsers' }
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'song' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'FragmentSpread',
+																		name: { kind: 'Name', value: 'Song' }
+																	}
+																]
+															}
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'voiceParts' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'tenor' }
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'lead' }
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'bari' }
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'bass' }
+																	}
+																]
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ContributorXref' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Song' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Song' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'title' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'stockId' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'voicing' } },
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'contributors' },
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'ContributorXref' }
+								}
+							]
+						}
+					}
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<SharedSongsQuery, SharedSongsQueryVariables>
 export const UserInfoDocument = {
 	kind: 'Document',
 	definitions: [

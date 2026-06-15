@@ -132,6 +132,39 @@ export type RegisterMutation = {
 	register: { status: LoginStatus; token: string | null }
 }
 
+export type SharedSongsQueryVariables = Exact<{
+	token: string
+	usernames: Array<string> | string
+}>
+
+export type SharedSongsQuery = {
+	sharedSongs:
+		| {
+				__typename: 'SharedSongList'
+				songs: Array<{
+					distinctUserCount: number
+					distinctUsers: Array<string>
+					song: {
+						id: string
+						title: string
+						stockId: number | null
+						voicing: string
+						contributors: Array<{
+							contributionType: ContributionType
+							contributorName: string
+						}>
+					}
+					voiceParts: {
+						tenor: Array<string>
+						lead: Array<string>
+						bari: Array<string>
+						bass: Array<string>
+					}
+				}>
+		  }
+		| Record<PropertyKey, never>
+}
+
 export type SongFragment = {
 	id: string
 	title: string

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ContributorGroup } from '@/util/group-contributors';
-import joinList from '@/util/join-list';
+import { ContributorGroup } from '@/util/group-contributors'
+import joinList from '@/util/join-list'
 
 defineProps<{
 	contributor: ContributorGroup

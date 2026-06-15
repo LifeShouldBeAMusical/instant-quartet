@@ -42,9 +42,13 @@ const groupContributors = (
 	if (setEquality(composers, lyricists) && setEquality(composers, arrangers)) {
 		return [
 			{
-				contributionType: ['COMPOSER', 'LYRICIST', 'ARRANGER'] as ContributionType[],
+				contributionType: [
+					'COMPOSER',
+					'LYRICIST',
+					'ARRANGER'
+				] as ContributionType[],
 				contributorName: composers
-			},
+			}
 		].filter((group) => group.contributorName.length > 0)
 	}
 

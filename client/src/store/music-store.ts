@@ -1,6 +1,7 @@
 import { allSongsQuery } from '@/graphql/queries/all-songs'
 import { learnSongMutation } from '@/graphql/queries/learn-song'
 import { mySongsQuery } from '@/graphql/queries/my-songs'
+import { sharedSongsQuery } from '@/graphql/queries/shared-songs'
 import {
 	AllSongsQuery,
 	LearnSongMutation,
@@ -8,6 +9,8 @@ import {
 	MySongFragment,
 	MySongsQuery,
 	MySongsQueryVariables,
+	SharedSongsQuery,
+	SharedSongsQueryVariables,
 	SongFragment,
 	SongIdentifier,
 	VoicePart
@@ -26,6 +29,10 @@ provideApolloClient(apolloClient)
 
 const { load: loadMusic, result: musicResult } =
 	useLazyQuery<AllSongsQuery>(allSongsQuery)
+const { load: loadSharedSongs, result: sharedMusicResult } = useLazyQuery<
+	SharedSongsQuery,
+	SharedSongsQueryVariables
+>(sharedSongsQuery)
 const { load: loadMyMusic, result: myMusicResult } = useLazyQuery<
 	MySongsQuery,
 	MySongsQueryVariables
@@ -79,6 +86,12 @@ export const useMusicStore = defineStore('music-store', () => {
 		}
 	})
 
+	const sharedSongs = computed(() => sharedMusicResult.value?.sharedSongs.songs)
+	const searchSharedSongs = (usernames: string[]) =>
+		usernames.length &&
+		userStore.token &&
+		loadSharedSongs(sharedSongsQuery, { token: userStore.token, usernames })
+
 	return {
 		fetchMusic,
 		music,
@@ -86,6 +99,8 @@ export const useMusicStore = defineStore('music-store', () => {
 		myMusic,
 		myMusicIds,
 		addSong,
-		learnSong
+		learnSong,
+		sharedSongs,
+		searchSharedSongs
 	}
 })
