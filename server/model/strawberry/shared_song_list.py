@@ -1,30 +1,9 @@
-from typing import Optional
-
 import strawberry
 
 from model.database import SongModel, UserModel
 from model.enum import VoicePart
+from model.strawberry.shared_song_voice import SharedSongVoice
 from model.strawberry.song_output import Song
-
-
-@strawberry.type
-class SharedSongVoice:
-    tenor: list[str] = strawberry.field(description="Usernames")
-    lead: list[str] = strawberry.field(description="Usernames")
-    bari: list[str] = strawberry.field(description="Usernames")
-    bass: list[str] = strawberry.field(description="Usernames")
-
-    def __init__(
-        self,
-        tenor: Optional[list[str]] = None,
-        lead: Optional[list[str]] = None,
-        bari: Optional[list[str]] = None,
-        bass: Optional[list[str]] = None,
-    ):
-        self.tenor = tenor or []
-        self.lead = lead or []
-        self.bari = bari or []
-        self.bass = bass or []
 
 
 @strawberry.type
@@ -39,10 +18,10 @@ class SharedSong:
     @strawberry.field
     def distinct_users(self) -> list[str]:
         distinct_users = (
-            set(self.voice_parts.tenor)
-            | set(self.voice_parts.lead)
-            | set(self.voice_parts.bari)
-            | set(self.voice_parts.bass)
+            set(self.voice_parts._all_tenor)
+            | set(self.voice_parts._all_lead)
+            | set(self.voice_parts._all_bari)
+            | set(self.voice_parts._all_bass)
         )
         return list(distinct_users)
 
@@ -66,22 +45,22 @@ class SharedSongList:
 
                 match song_asc.voice_part:
                     case VoicePart.TENOR:
-                        song_dict[song_asc.song_id].voice_parts.tenor.append(
+                        song_dict[song_asc.song_id].voice_parts._all_tenor.append(
                             user.username
                         )
 
                     case VoicePart.LEAD:
-                        song_dict[song_asc.song_id].voice_parts.lead.append(
+                        song_dict[song_asc.song_id].voice_parts._all_lead.append(
                             user.username
                         )
 
                     case VoicePart.BARI:
-                        song_dict[song_asc.song_id].voice_parts.bari.append(
+                        song_dict[song_asc.song_id].voice_parts._all_bari.append(
                             user.username
                         )
 
                     case VoicePart.BASS:
-                        song_dict[song_asc.song_id].voice_parts.bass.append(
+                        song_dict[song_asc.song_id].voice_parts._all_bass.append(
                             user.username
                         )
 
