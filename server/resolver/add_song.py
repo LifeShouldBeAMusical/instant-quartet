@@ -73,6 +73,6 @@ async def learn_song(
                 )
 
         await session.commit()
-        return LearnSongResult(SuccessFailure.SUCCESS)
+        return LearnSongResult(SuccessFailure.SUCCESS, Song.marshal(song_data))
 
     return LearnSongResult(SuccessFailure.FAILURE)

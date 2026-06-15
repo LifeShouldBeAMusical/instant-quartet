@@ -18,21 +18,10 @@ class Song:
 
     @classmethod
     def marshal(cls, model: SongModel) -> "Song":
-
-        contributors: dict[int, Contributor] = {}
-        for c in model.contributors:
-            if c.contributor_id not in contributors:
-                contributors[c.contributor_id] = Contributor(
-                    id=strawberry.ID(c.contributor_id),
-                    contributor_name=c.contributor.person_name,
-                    contribution_type=[],
-                )
-            contributors[c.contributor_id].contribution_type.append(c.contribution_type)
-
         return cls(
             id=strawberry.ID(model.id),
             title=model.title,
             voicing=model.voicing,
             stock_id=model.stock_id,
-            contributors=contributors.values(),
+            contributors=[Contributor.marshal(c) for c in model.contributors],
         )
