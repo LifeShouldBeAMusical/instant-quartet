@@ -1,13 +1,12 @@
 import strawberry
 
 from model.database import ContributorAssociation
+from model.enum import ContributionType
 
 
 @strawberry.type
 class Contributor:
-    contribution_type: str = strawberry.field(
-        description="Arranger, Composer, Lyricist, etc"
-    )
+    contribution_type: ContributionType
     contributor_name: str
 
     @classmethod
