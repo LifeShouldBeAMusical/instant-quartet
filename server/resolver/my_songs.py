@@ -1,10 +1,8 @@
 from typing import Union
 
-from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
 
 from data.data_connection import get_async_session
-from model.database import UserSongAssociation
 from model.enum import LoginStatus
 from model.strawberry import LoginResult, SongList
 from resolver.authenticate import get_authenticated_user
