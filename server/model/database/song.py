@@ -1,3 +1,4 @@
+import re
 from typing import Optional
 
 from sqlalchemy import Integer, String
@@ -23,6 +24,9 @@ class SongModel(ModelBase):
     title: Mapped[str] = mapped_column("song_name", String, nullable=False)
     """Name"""
 
+    title_sort: Mapped[str] = mapped_column("song_name_sort", String, nullable=False)
+    """Name"""
+
     voicing: Mapped[str] = mapped_column("voicing", String, nullable=False)
     """SSAA / SATB / TTBB"""
 
@@ -36,6 +40,7 @@ class SongModel(ModelBase):
         contributors: Optional[list[ContributorAssociation]],
     ):
         self.title = title
+        self.title_sort = re.sub(r"^(A|An|The|\(.+?\)) (.+)$", r"\2", title)
         self.stock_id = stock_id
         self.voicing = voicing
         self.contributors = contributors
