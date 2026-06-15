@@ -1,28 +1,9 @@
 import { ContributionType, ContributorXrefFragment } from '@/graphql/types'
+import setEquality from '@/util/set-equality'
 
 export type ContributorGroup = {
 	contributorName: string[]
 	contributionType: ContributionType[]
-}
-
-function setEquality<T>(a: T[], b: T[]): boolean {
-	if (a.length != b.length) {
-		return false
-	}
-
-	a.forEach((v) => {
-		if (!b.includes(v)) {
-			return false
-		}
-	})
-
-	b.forEach((v) => {
-		if (!a.includes(v)) {
-			return false
-		}
-	})
-
-	return true
 }
 
 const groupContributors = (
