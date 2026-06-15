@@ -15,7 +15,6 @@ from model.strawberry import (
     LearnSongInput,
     LearnSongResult,
     LoginResult,
-    Song,
     SongIdentifier,
 )
 from resolver.authenticate import get_authenticated_user
@@ -73,6 +72,6 @@ async def learn_song(
                 )
 
         await session.commit()
-        return LearnSongResult(SuccessFailure.SUCCESS, Song.marshal(song_data))
+        return LearnSongResult(SuccessFailure.SUCCESS)
 
     return LearnSongResult(SuccessFailure.FAILURE)
