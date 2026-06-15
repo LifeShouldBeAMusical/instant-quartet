@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ContributorGroup } from '@/util/group-contributors'
-import joinList from '@/util/join-list'
+import { ContributorGroup } from '@/util/group-contributors';
+import joinList from '@/util/join-list';
 
 defineProps<{
 	contributor: ContributorGroup
@@ -12,6 +12,15 @@ defineProps<{
 		<div>
 			<template
 				v-if="
+					contributor.contributionType.includes('COMPOSER') &&
+					contributor.contributionType.includes('LYRICIST') &&
+					contributor.contributionType.includes('ARRANGER')
+				"
+			>
+				Words, Music, and Arrangement by
+			</template>
+			<template
+				v-else-if="
 					contributor.contributionType.includes('COMPOSER') &&
 					contributor.contributionType.includes('LYRICIST')
 				"
