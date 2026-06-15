@@ -99,8 +99,16 @@ export type SongFragment = {
 	title: string
 	stockId: number | null
 	voicing: string
-	contributors: Array<{ contributionType: string; contributorName: string }>
+	contributors: Array<{
+		' $fragmentRefs'?: { ContributorFragment: ContributorFragment }
+	}>
 } & { ' $fragmentName'?: 'SongFragment' }
+
+export type ContributorFragment = {
+	id: string
+	contributionType: Array<ContributionType>
+	contributorName: string
+} & { ' $fragmentName'?: 'ContributorFragment' }
 
 export type UserInfoQueryVariables = Exact<{
 	token: string
@@ -112,6 +120,27 @@ export type UserInfoQuery = {
 		| { displayName: string | null; username: string }
 }
 
+export const ContributorFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<ContributorFragment, unknown>
 export const SongFragmentDoc = {
 	kind: 'Document',
 	definitions: [
@@ -136,16 +165,28 @@ export const SongFragmentDoc = {
 							kind: 'SelectionSet',
 							selections: [
 								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributionType' }
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributorName' }
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Contributor' }
 								}
 							]
 						}
 					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
 				]
 			}
 		}
@@ -183,6 +224,22 @@ export const MySongFragmentDoc = {
 		},
 		{
 			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
 			name: { kind: 'Name', value: 'Song' },
 			typeCondition: {
 				kind: 'NamedType',
@@ -202,12 +259,8 @@ export const MySongFragmentDoc = {
 							kind: 'SelectionSet',
 							selections: [
 								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributionType' }
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributorName' }
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Contributor' }
 								}
 							]
 						}
@@ -245,6 +298,22 @@ export const AllSongsDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
 			name: { kind: 'Name', value: 'Song' },
 			typeCondition: {
 				kind: 'NamedType',
@@ -264,12 +333,8 @@ export const AllSongsDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributionType' }
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributorName' }
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Contributor' }
 								}
 							]
 						}
@@ -381,6 +446,22 @@ export const LearnSongDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
 			name: { kind: 'Name', value: 'Song' },
 			typeCondition: {
 				kind: 'NamedType',
@@ -400,12 +481,8 @@ export const LearnSongDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributionType' }
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributorName' }
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Contributor' }
 								}
 							]
 						}
@@ -568,6 +645,22 @@ export const MySongsDocument = {
 		},
 		{
 			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'Contributor' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'Contributor' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributionType' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'contributorName' } }
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
 			name: { kind: 'Name', value: 'Song' },
 			typeCondition: {
 				kind: 'NamedType',
@@ -587,12 +680,8 @@ export const MySongsDocument = {
 							kind: 'SelectionSet',
 							selections: [
 								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributionType' }
-								},
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'contributorName' }
+									kind: 'FragmentSpread',
+									name: { kind: 'Name', value: 'Contributor' }
 								}
 							]
 						}

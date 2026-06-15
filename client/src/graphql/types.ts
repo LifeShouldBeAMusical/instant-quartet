@@ -44,7 +44,11 @@ export type AllSongsQuery = {
 		title: string
 		stockId: number | null
 		voicing: string
-		contributors: Array<{ contributionType: string; contributorName: string }>
+		contributors: Array<{
+			id: string
+			contributionType: Array<ContributionType>
+			contributorName: string
+		}>
 	}>
 }
 
@@ -64,7 +68,8 @@ export type LearnSongMutation = {
 					stockId: number | null
 					voicing: string
 					contributors: Array<{
-						contributionType: string
+						id: string
+						contributionType: Array<ContributionType>
 						contributorName: string
 					}>
 				} | null
@@ -97,7 +102,8 @@ export type MySongsQuery = {
 						stockId: number | null
 						voicing: string
 						contributors: Array<{
-							contributionType: string
+							id: string
+							contributionType: Array<ContributionType>
 							contributorName: string
 						}>
 					}
@@ -112,7 +118,11 @@ export type MySongFragment = {
 		title: string
 		stockId: number | null
 		voicing: string
-		contributors: Array<{ contributionType: string; contributorName: string }>
+		contributors: Array<{
+			id: string
+			contributionType: Array<ContributionType>
+			contributorName: string
+		}>
 	}
 }
 
@@ -131,7 +141,17 @@ export type SongFragment = {
 	title: string
 	stockId: number | null
 	voicing: string
-	contributors: Array<{ contributionType: string; contributorName: string }>
+	contributors: Array<{
+		id: string
+		contributionType: Array<ContributionType>
+		contributorName: string
+	}>
+}
+
+export type ContributorFragment = {
+	id: string
+	contributionType: Array<ContributionType>
+	contributorName: string
 }
 
 export type UserInfoQueryVariables = Exact<{

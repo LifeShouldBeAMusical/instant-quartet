@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SongContributor from '@/components/SongContributor.vue'
 import { SongFragment, VoicePart } from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
 import { useUserStore } from '@/store/user-store'
@@ -45,10 +46,19 @@ const closeModal = () => (modalOpen.value = false)
 					:key="part"
 					:class="`learned-part ${part.toLowerCase()}`"
 					outline
-					>{{ part }}</ion-chip
 				>
+					{{ part }}
+				</ion-chip>
 			</div>
 		</div>
+		<div class="contributors">
+			<song-contributor
+				v-for="c in song.contributors"
+				:key="c.id"
+				:contributor="c"
+			/>
+		</div>
+
 		<ion-button v-if="token" @click="openModal">Learn</ion-button>
 		<ion-modal :is-open="token && modalOpen">
 			<ion-header>
@@ -79,6 +89,8 @@ const closeModal = () => (modalOpen.value = false)
 
 <style lang="scss">
 .song-button {
+	margin-bottom: 16px;
+
 	.title-container {
 		display: flex;
 		flex-flow: row wrap;
@@ -99,6 +111,15 @@ const closeModal = () => (modalOpen.value = false)
 		.bass {
 			border-color: red;
 		}
+	}
+
+	.contributors {
+		display: flex;
+		flex-flow: row wrap;
+
+		gap: 4px 16px;
+		align-items: baseline;
+		justify-content: start;
 	}
 }
 .learn-button-container {
