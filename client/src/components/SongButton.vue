@@ -92,7 +92,7 @@ const closeModal = () => (modalOpen.value = false)
 		gap: 12px;
 		align-items: baseline;
 		.title {
-			font-size: 125%;
+			font-size: large;
 		}
 		.tenor {
 			border-color: #9a9a00;

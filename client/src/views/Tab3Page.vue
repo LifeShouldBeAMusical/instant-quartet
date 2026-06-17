@@ -33,30 +33,33 @@ onBeforeMount(() => store.searchSharedSongs(usernames.value))
 					<ion-title size="large">Quartet</ion-title>
 				</ion-toolbar>
 			</ion-header>
-<div class="shared-song-list-container">
-<div class="shared-song" v-for="song in sharedSongs" :key="song.song.id">
-	<song-button :song="song.song" :learned-parts="[]" />
-	<div class="parts-container">
-		<div class="part">
-			<div class="label">Tenor:</div>
-			<div class="users">{{ joinList( song.voiceParts.tenor) }}</div>
-		</div>
-		<div class="part">
-			<div class="label">Lead:</div>
-			<div class="users">{{ joinList( song.voiceParts.lead) }}</div>
-		</div>
-		<div class="part">
-			<div class="label">Bari:</div>
-			<div class="users">{{ joinList( song.voiceParts.bari) }}</div>
-		</div>
-		<div class="part">
-			<div class="label">Bass:</div>
-			<div class="users">{{ joinList( song.voiceParts.bass) }}</div>
-		</div>
-	</div>
-
-</div>
-</div>
+			<div class="shared-song-list-container">
+				<div
+					class="shared-song"
+					v-for="song in sharedSongs"
+					:key="song.song.id"
+				>
+					<song-button :song="song.song" :learned-parts="[]" />
+					<div class="parts-container">
+						<div class="part">
+							<div class="label">Tenor:</div>
+							<div class="users">{{ joinList(song.voiceParts.tenor) }}</div>
+						</div>
+						<div class="part">
+							<div class="label">Lead:</div>
+							<div class="users">{{ joinList(song.voiceParts.lead) }}</div>
+						</div>
+						<div class="part">
+							<div class="label">Bari:</div>
+							<div class="users">{{ joinList(song.voiceParts.bari) }}</div>
+						</div>
+						<div class="part">
+							<div class="label">Bass:</div>
+							<div class="users">{{ joinList(song.voiceParts.bass) }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</ion-content>
 	</ion-page>
 </template>
