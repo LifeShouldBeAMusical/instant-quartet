@@ -39,8 +39,6 @@ onBeforeMount(() => {
 				<ion-select-option value="OTHER">Other</ion-select-option>
 			</ion-select>
 
-			<div>{{ voicing }}</div>
-
 			<div class="count">
 				{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
 			</div>
