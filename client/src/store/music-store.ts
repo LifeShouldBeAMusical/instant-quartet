@@ -4,6 +4,7 @@ import { mySongsQuery } from '@/graphql/queries/my-songs'
 import { sharedSongsQuery } from '@/graphql/queries/shared-songs'
 import {
 	AllSongsQuery,
+	AllSongsQueryVariables,
 	LearnSongMutation,
 	LearnSongMutationVariables,
 	MySongFragment,
@@ -13,7 +14,8 @@ import {
 	SharedSongsQueryVariables,
 	SongFragment,
 	SongIdentifier,
-	VoicePart
+	VoicePart,
+	Voicing
 } from '@/graphql/types'
 import { apolloClient } from '@/store/client'
 import { useUserStore } from '@/store/user-store'
@@ -23,12 +25,14 @@ import {
 	useMutation
 } from '@vue/apollo-composable'
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 provideApolloClient(apolloClient)
 
-const { load: loadMusic, result: musicResult } =
-	useLazyQuery<AllSongsQuery>(allSongsQuery)
+const { load: loadMusic, result: musicResult } = useLazyQuery<
+	AllSongsQuery,
+	AllSongsQueryVariables
+>(allSongsQuery)
 const { load: loadSharedSongs, result: sharedMusicResult } = useLazyQuery<
 	SharedSongsQuery,
 	SharedSongsQueryVariables
@@ -43,7 +47,11 @@ const { mutate: learnSongMutate, onDone: onSongLearned } = useMutation<
 >(learnSongMutation)
 
 export const useMusicStore = defineStore('music-store', () => {
-	const fetchMusic = () => loadMusic()
+	const voicing = ref<Voicing | undefined>()
+	const filterVoicing = (v: Voicing | undefined) => (voicing.value = v)
+
+	const fetchMusic = () => loadMusic(allSongsQuery, { voicing: voicing.value })
+	watch(voicing, fetchMusic)
 	const music = computed<SongFragment[]>(
 		() => musicResult.value?.allSongs ?? []
 	)
@@ -94,6 +102,7 @@ export const useMusicStore = defineStore('music-store', () => {
 
 	return {
 		fetchMusic,
+		filterVoicing,
 		music,
 		fetchMyMusic,
 		myMusic,

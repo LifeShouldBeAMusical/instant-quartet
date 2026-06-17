@@ -37,7 +37,11 @@ export type SuccessFailure = 'FAILURE' | 'SUCCESS'
 
 export type VoicePart = 'BARI' | 'BASS' | 'LEAD' | 'TENOR'
 
-export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
+export type Voicing = 'OTHER' | 'SATB' | 'SSAA' | 'TTBB'
+
+export type AllSongsQueryVariables = Exact<{
+	voicing?: Voicing | null | undefined
+}>
 
 export type AllSongsQuery = {
 	allSongs: Array<{ ' $fragmentRefs'?: { SongFragment: SongFragment } }>
@@ -297,12 +301,32 @@ export const AllSongsDocument = {
 			kind: 'OperationDefinition',
 			operation: 'query',
 			name: { kind: 'Name', value: 'AllSongs' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'voicing' }
+					},
+					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Voicing' } }
+				}
+			],
 			selectionSet: {
 				kind: 'SelectionSet',
 				selections: [
 					{
 						kind: 'Field',
 						name: { kind: 'Name', value: 'allSongs' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'voicing' },
+								value: {
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'voicing' }
+								}
+							}
+						],
 						selectionSet: {
 							kind: 'SelectionSet',
 							selections: [

@@ -36,7 +36,11 @@ export type SuccessFailure = 'FAILURE' | 'SUCCESS'
 
 export type VoicePart = 'BARI' | 'BASS' | 'LEAD' | 'TENOR'
 
-export type AllSongsQueryVariables = Exact<{ [key: string]: never }>
+export type Voicing = 'OTHER' | 'SATB' | 'SSAA' | 'TTBB'
+
+export type AllSongsQueryVariables = Exact<{
+	voicing?: Voicing | null | undefined
+}>
 
 export type AllSongsQuery = {
 	allSongs: Array<{

@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import SongButton from '@/components/SongButton.vue'
+import { Voicing } from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
-import { computed, onBeforeMount } from 'vue'
-import SongButton from './SongButton.vue'
+import { IonSelect, IonSelectOption } from '@ionic/vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 
 const store = useMusicStore()
 const myMusic = computed(() => store.myMusic)
 const music = computed(() =>
 	store.music.filter((s) => !(store.myMusicIds && store.myMusicIds[s.id]))
+)
+
+const voicing = ref('all')
+watch(voicing, () =>
+	store.filterVoicing(
+		['SSAA', 'SATB', 'TTBB', 'OTHER'].includes(voicing.value)
+			? (voicing.value as Voicing)
+			: undefined
+	)
 )
 
 onBeforeMount(() => {
@@ -16,10 +27,23 @@ onBeforeMount(() => {
 </script>
 
 <template>
-	<div>
-		<div>Music Library</div>
-		<div>
-			{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
+	<div class="music-library">
+		<div class="header">
+			<div class="title">Music Library</div>
+
+			<ion-select v-model="voicing" label="Voicing">
+				<ion-select-option value="all">All</ion-select-option>
+				<ion-select-option value="SSAA">SSAA</ion-select-option>
+				<ion-select-option value="SATB">SATB</ion-select-option>
+				<ion-select-option value="TTBB">TTBB</ion-select-option>
+				<ion-select-option value="OTHER">Other</ion-select-option>
+			</ion-select>
+
+			<div>{{ voicing }}</div>
+
+			<div class="count">
+				{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
+			</div>
 		</div>
 		<div>
 			<song-button
@@ -37,3 +61,14 @@ onBeforeMount(() => {
 		</div>
 	</div>
 </template>
+
+<style lang="scss">
+.music-library {
+	.header {
+		margin-bottom: 12px;
+		.title {
+			font-size: x-large;
+		}
+	}
+}
+</style>
