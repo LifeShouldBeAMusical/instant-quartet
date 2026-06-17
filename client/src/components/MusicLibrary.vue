@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import SongButton from '@/components/SongButton.vue'
+import SongListItem from '@/components/SongListItem.vue'
 import { Voicing } from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
-import { IonSelect, IonSelectOption } from '@ionic/vue'
+import { useUserStore } from '@/store/user-store'
+import { IonList, IonListHeader, IonSelect, IonSelectOption } from '@ionic/vue'
 import { computed, onBeforeMount, ref, watch } from 'vue'
 
+const userStore = useUserStore()
+const token = computed(() => userStore.token)
+
 const store = useMusicStore()
-const myMusic = computed(() => store.myMusic)
+const learnedParts = computed(() => store.myMusicIds ?? {})
+const myMusic = computed(() =>
+	store.music.filter((s) => store.myMusicIds && store.myMusicIds[s.id])
+)
 const music = computed(() =>
 	store.music.filter((s) => !(store.myMusicIds && store.myMusicIds[s.id]))
 )
@@ -43,20 +50,20 @@ onBeforeMount(() => {
 				{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
 			</div>
 		</div>
-		<div>
-			<song-button
+
+		<ion-list v-if="token">
+			<ion-list-header>Learned Music</ion-list-header>
+			<song-list-item
 				v-for="song in myMusic"
-				:key="song.song.id"
-				:song="song.song"
-				:learned-parts="song.parts"
-			/>
-			<song-button
-				v-for="song in music"
 				:key="song.id"
 				:song="song"
-				:learned-parts="[]"
+				:learned-parts="learnedParts[song.id]"
 			/>
-		</div>
+		</ion-list>
+		<ion-list>
+			<ion-list-header v-if="token">Unlearned Music</ion-list-header>
+			<song-list-item v-for="song in music" :key="song.id" :song="song" />
+		</ion-list>
 	</div>
 </template>
 

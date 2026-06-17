@@ -67,7 +67,7 @@ export const useMusicStore = defineStore('music-store', () => {
 	)
 	const myMusicIds = computed(() =>
 		myMusic.value?.reduce(
-			(acc, currentValue): Record<string, string[]> => ({
+			(acc, currentValue): Record<string, VoicePart[]> => ({
 				...acc,
 				[currentValue.song.id]: currentValue.parts
 			}),
