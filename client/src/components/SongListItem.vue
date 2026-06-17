@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import SongContributorGroup from '@/components/SongContributorGroup.vue'
-import { SongFragment, VoicePart } from '@/graphql/types'
+import {
+	SharedSongVoiceFragment,
+	SongFragment,
+	VoicePart
+} from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
 import { useUserStore } from '@/store/user-store'
+import joinList from '@/util/join-list'
 import {
 	IonButton,
 	IonButtons,
@@ -20,6 +25,7 @@ import { computed, ref } from 'vue'
 const { song } = defineProps<{
 	song: SongFragment
 	learnedParts?: VoicePart[]
+	voiceParts?: SharedSongVoiceFragment
 }>()
 
 const musicStore = useMusicStore()
@@ -51,6 +57,25 @@ const closeModal = () => (modalOpen.value = false)
 			</div>
 		</ion-label>
 		<ion-content>
+			<div class="parts-container" v-if="voiceParts">
+				<div class="part">
+					<div class="label">Tenor:</div>
+					<div class="users">{{ joinList(voiceParts.tenor) }}</div>
+				</div>
+				<div class="part">
+					<div class="label">Lead:</div>
+					<div class="users">{{ joinList(voiceParts.lead) }}</div>
+				</div>
+				<div class="part">
+					<div class="label">Bari:</div>
+					<div class="users">{{ joinList(voiceParts.bari) }}</div>
+				</div>
+				<div class="part">
+					<div class="label">Bass:</div>
+					<div class="users">{{ joinList(voiceParts.bass) }}</div>
+				</div>
+			</div>
+
 			<song-contributor-group :contributors="song.contributors" />
 			<ion-button
 				v-if="token && !(learnedParts && learnedParts.length == 4)"

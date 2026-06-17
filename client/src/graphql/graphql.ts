@@ -112,15 +112,21 @@ export type SharedSongsQuery = {
 					distinctUsers: Array<string>
 					song: { ' $fragmentRefs'?: { SongFragment: SongFragment } }
 					voiceParts: {
-						tenor: Array<string>
-						lead: Array<string>
-						bari: Array<string>
-						bass: Array<string>
+						' $fragmentRefs'?: {
+							SharedSongVoiceFragment: SharedSongVoiceFragment
+						}
 					}
 				}>
 		  }
 		| Record<PropertyKey, never>
 }
+
+export type SharedSongVoiceFragment = {
+	tenor: Array<string>
+	bari: Array<string>
+	bass: Array<string>
+	lead: Array<string>
+} & { ' $fragmentName'?: 'SharedSongVoiceFragment' }
 
 export type SongFragment = {
 	id: string
@@ -294,6 +300,28 @@ export const MySongFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<MySongFragment, unknown>
+export const SharedSongVoiceFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'SharedSongVoice' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'SharedSongVoice' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'tenor' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'bari' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'bass' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'lead' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<SharedSongVoiceFragment, unknown>
 export const AllSongsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -957,20 +985,11 @@ export const SharedSongsDocument = {
 																kind: 'SelectionSet',
 																selections: [
 																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'tenor' }
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'lead' }
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'bari' }
-																	},
-																	{
-																		kind: 'Field',
-																		name: { kind: 'Name', value: 'bass' }
+																		kind: 'FragmentSpread',
+																		name: {
+																			kind: 'Name',
+																			value: 'SharedSongVoice'
+																		}
 																	}
 																]
 															}
@@ -1029,6 +1048,23 @@ export const SharedSongsDocument = {
 							]
 						}
 					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'SharedSongVoice' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'SharedSongVoice' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'tenor' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'bari' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'bass' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'lead' } }
 				]
 			}
 		}

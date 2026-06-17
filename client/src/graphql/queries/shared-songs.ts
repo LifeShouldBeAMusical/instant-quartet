@@ -13,14 +13,19 @@ export const sharedSongsQuery = gql`
 						...Song
 					}
 					voiceParts {
-						tenor
-						lead
-						bari
-						bass
+						...SharedSongVoice
 					}
 				}
 			}
 		}
 	}
+
+	fragment SharedSongVoice on SharedSongVoice {
+		tenor
+		bari
+		bass
+		lead
+	}
+
 	${songFragment}
 `
