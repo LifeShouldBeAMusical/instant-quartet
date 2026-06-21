@@ -44,7 +44,7 @@ const closeModal = () => (modalOpen.value = false)
 <template>
 	<ion-item class="song-list-item">
 		<ion-label>
-			{{ song.title }} ({{ song.voicing }})
+			<div class="song-title">{{ song.title }} ({{ song.voicing }})</div>
 			<div v-if="learnedParts" class="learned-part-container">
 				<ion-chip
 					v-for="part in learnedParts"
@@ -55,8 +55,6 @@ const closeModal = () => (modalOpen.value = false)
 					{{ part }}
 				</ion-chip>
 			</div>
-		</ion-label>
-		<ion-content>
 			<div class="parts-container" v-if="voiceParts">
 				<div class="part">
 					<div class="label">Tenor:</div>
@@ -107,23 +105,29 @@ const closeModal = () => (modalOpen.value = false)
 					</ion-buttons>
 				</ion-content>
 			</ion-modal>
-		</ion-content>
+		</ion-label>
 	</ion-item>
 </template>
 
 <style lang="scss">
-.learned-part-container {
-	.tenor {
-		border-color: #9a9a00;
+.song-list-item {
+	.song-title {
+		font-size: large;
 	}
-	.lead {
-		border-color: blue;
-	}
-	.bari {
-		border-color: green;
-	}
-	.bass {
-		border-color: red;
+
+	.learned-part-container {
+		.tenor {
+			border-color: #9a9a00;
+		}
+		.lead {
+			border-color: blue;
+		}
+		.bari {
+			border-color: green;
+		}
+		.bass {
+			border-color: red;
+		}
 	}
 }
 .learn-button-container {

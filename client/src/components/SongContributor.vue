@@ -46,5 +46,6 @@ defineProps<{
 	display: flex;
 	flex-flow: row wrap;
 	gap: 6px;
+	font-size: small;
 }
 </style>
