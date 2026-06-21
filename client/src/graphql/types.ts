@@ -160,13 +160,20 @@ export type SharedSongsQuery = {
 					}
 					voiceParts: {
 						tenor: Array<string>
-						lead: Array<string>
 						bari: Array<string>
 						bass: Array<string>
+						lead: Array<string>
 					}
 				}>
 		  }
 		| Record<PropertyKey, never>
+}
+
+export type SharedSongVoiceFragment = {
+	tenor: Array<string>
+	bari: Array<string>
+	bass: Array<string>
+	lead: Array<string>
 }
 
 export type SongFragment = {
