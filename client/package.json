@@ -28,6 +28,7 @@
 		"@ionic/vue": "^8.8.10",
 		"@ionic/vue-router": "^8.8.10",
 		"@vue/apollo-composable": "^4.2.2",
+		"fuse.js": "^7.4.2",
 		"graphql": "^16.14.2",
 		"ionicons": "^8.0.13",
 		"pinia": "^3.0.4",

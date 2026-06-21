@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import SongListItem from '@/components/library/SongListItem.vue'
+import TextFilter from '@/components/library/TextFilter.vue'
+import VoicingFilter from '@/components/library/VoicingFilter.vue'
 import { useMusicStore } from '@/store/music-store'
 import { useUserStore } from '@/store/user-store'
 import { IonList, IonListHeader } from '@ionic/vue'
 import { computed, onBeforeMount } from 'vue'
-import VoicingFilter from './library/VoicingFilter.vue'
 
 const userStore = useUserStore()
 const token = computed(() => userStore.token)
@@ -30,6 +31,7 @@ onBeforeMount(() => {
 			<div class="title">Music Library</div>
 
 			<voicing-filter />
+			<text-filter />
 
 			<div class="count">
 				{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs

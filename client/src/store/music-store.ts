@@ -24,6 +24,7 @@ import {
 	useLazyQuery,
 	useMutation
 } from '@vue/apollo-composable'
+import Fuse from 'fuse.js/basic'
 import { defineStore } from 'pinia'
 import { computed, ref, watch } from 'vue'
 
@@ -47,16 +48,10 @@ const { mutate: learnSongMutate, onDone: onSongLearned } = useMutation<
 >(learnSongMutation)
 
 export const useMusicStore = defineStore('music-store', () => {
-	const voicing = ref<Voicing | undefined>()
-	const filterVoicing = (v: Voicing | undefined) => (voicing.value = v)
-
 	const fetchMusic = () => loadMusic(allSongsQuery, { voicing: voicing.value })
-	watch(voicing, fetchMusic)
 	const music = computed<SongFragment[]>(
 		() => musicResult.value?.allSongs ?? []
 	)
-
-	const userStore = useUserStore()
 
 	const fetchMyMusic = () =>
 		userStore.token && loadMyMusic(mySongsQuery, { token: userStore.token })
@@ -74,6 +69,27 @@ export const useMusicStore = defineStore('music-store', () => {
 			{}
 		)
 	)
+	const fuse = computed(
+		() =>
+			new Fuse(music.value, {
+				isCaseSensitive: false,
+				keys: ['title', 'contributors.contributorName']
+			})
+	)
+
+	const textSearch = ref<string | undefined>()
+	const filteredMusic = computed(() =>
+		textSearch.value
+			? fuse.value.search(textSearch.value).map((result) => result.item)
+			: music.value
+	)
+	const filterText = (t: string | undefined) => (textSearch.value = t)
+
+	const voicing = ref<Voicing | undefined>()
+	const filterVoicing = (v: Voicing | undefined) => (voicing.value = v)
+	watch(voicing, fetchMusic)
+
+	const userStore = useUserStore()
 
 	const learnSong = (songInput: SongIdentifier, voicePart: VoicePart) =>
 		userStore.token &&
@@ -103,7 +119,8 @@ export const useMusicStore = defineStore('music-store', () => {
 	return {
 		fetchMusic,
 		filterVoicing,
-		music,
+		filterText,
+		music: filteredMusic,
 		fetchMyMusic,
 		myMusic,
 		myMusicIds,
