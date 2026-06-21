@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SongListItem from '@/components/SongListItem.vue'
+import SongListItem from '@/components/library/SongListItem.vue'
 import { Voicing } from '@/graphql/types'
 import { useMusicStore } from '@/store/music-store'
 import { useUserStore } from '@/store/user-store'

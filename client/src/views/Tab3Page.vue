@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SongListItem from '@/components/SongListItem.vue'
+import SongListItem from '@/components/library/SongListItem.vue'
 import { useMusicStore } from '@/store/music-store'
 import {
 	IonContent,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SongContributor from '@/components/SongContributor.vue'
+import SongContributor from '@/components/library/SongContributor.vue'
 import { ContributorXrefFragment } from '@/graphql/types'
 import groupContributors from '@/util/group-contributors'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SongContributorGroup from '@/components/SongContributorGroup.vue'
+import SongContributorGroup from '@/components/library/SongContributorGroup.vue'
 import {
 	SharedSongVoiceFragment,
 	SongFragment,
