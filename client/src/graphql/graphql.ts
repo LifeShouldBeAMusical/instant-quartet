@@ -150,8 +150,13 @@ export type UserInfoQueryVariables = Exact<{
 export type UserInfoQuery = {
 	shareInfo:
 		| { status: LoginStatus }
-		| { displayName: string | null; username: string }
+		| { ' $fragmentRefs'?: { ShareInfoFragment: ShareInfoFragment } }
 }
+
+export type ShareInfoFragment = {
+	displayName: string | null
+	username: string
+} & { ' $fragmentName'?: 'ShareInfoFragment' }
 
 export const ContributorXrefFragmentDoc = {
 	kind: 'Document',
@@ -322,6 +327,26 @@ export const SharedSongVoiceFragmentDoc = {
 		}
 	]
 } as unknown as DocumentNode<SharedSongVoiceFragment, unknown>
+export const ShareInfoFragmentDoc = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ShareInfo' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'ShareInfo' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'username' } }
+				]
+			}
+		}
+	]
+} as unknown as DocumentNode<ShareInfoFragment, unknown>
 export const AllSongsDocument = {
 	kind: 'Document',
 	definitions: [
@@ -1119,12 +1144,8 @@ export const UserInfoDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'displayName' }
-											},
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'username' }
+												kind: 'FragmentSpread',
+												name: { kind: 'Name', value: 'ShareInfo' }
 											}
 										]
 									}
@@ -1145,6 +1166,21 @@ export const UserInfoDocument = {
 							]
 						}
 					}
+				]
+			}
+		},
+		{
+			kind: 'FragmentDefinition',
+			name: { kind: 'Name', value: 'ShareInfo' },
+			typeCondition: {
+				kind: 'NamedType',
+				name: { kind: 'Name', value: 'ShareInfo' }
+			},
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{ kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
+					{ kind: 'Field', name: { kind: 'Name', value: 'username' } }
 				]
 			}
 		}

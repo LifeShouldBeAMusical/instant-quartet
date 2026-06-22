@@ -201,3 +201,5 @@ export type UserInfoQuery = {
 		| { status: LoginStatus }
 		| { displayName: string | null; username: string }
 }
+
+export type ShareInfoFragment = { displayName: string | null; username: string }

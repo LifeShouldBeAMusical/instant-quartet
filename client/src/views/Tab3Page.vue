@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import SongListItem from '@/components/library/SongListItem.vue'
-import { useMusicStore } from '@/store/music-store'
+import QRCodeModal from '@/components/QRCodeModal.vue'
+import SharedSongList from '@/components/SharedSongList.vue'
+import { ShareInfoFragment } from '@/graphql/types'
 import {
+	IonButton,
+	IonButtons,
 	IonContent,
 	IonHeader,
-	IonList,
-	IonListHeader,
 	IonPage,
 	IonTitle,
 	IonToolbar
 } from '@ionic/vue'
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 
-const store = useMusicStore()
-const sharedSongs = computed(() => store.sharedSongs)
-
-const usernames = ref<string[]>(['LifeShouldBeAMusical'])
-watch(usernames, () => store.searchSharedSongs(usernames.value))
-
-onBeforeMount(() => store.searchSharedSongs(usernames.value))
+const people = ref<ShareInfoFragment[]>([])
+const usernames = computed(() => people.value.map((person) => person.username))
 </script>
 
 <template>
@@ -34,15 +30,13 @@ onBeforeMount(() => store.searchSharedSongs(usernames.value))
 					<ion-title size="large">Quartet</ion-title>
 				</ion-toolbar>
 			</ion-header>
-			<ion-list>
-				<ion-list-header>Shared Songs</ion-list-header>
-				<song-list-item
-					v-for="song in sharedSongs"
-					:key="song.song.id"
-					:song="song.song"
-					:voice-parts="song.voiceParts"
-				/>
-			</ion-list>
+
+			<ion-buttons>
+				<q-r-code-modal />
+				<ion-button> Scan People </ion-button>
+			</ion-buttons>
+
+			<shared-song-list :usernames="usernames" />
 		</ion-content>
 	</ion-page>
 </template>
