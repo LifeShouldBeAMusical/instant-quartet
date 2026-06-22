@@ -3,6 +3,7 @@ asyncpg
 black
 dotenv
 fastapi[standard]
+gunicorn
 passlib
 sqlalchemy
 strawberry-graphql[fastapi]
