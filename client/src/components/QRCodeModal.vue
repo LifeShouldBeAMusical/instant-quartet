@@ -23,7 +23,6 @@ const background = ref('#ffffff')
 const foreground = ref('#000000')
 //   const margin = ref(0)
 
-
 const radius = ref(0)
 </script>
 
@@ -54,7 +53,4 @@ const radius = ref(0)
 	</ion-modal>
 </template>
 
-
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>
