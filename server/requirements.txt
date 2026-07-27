@@ -1,0 +1,10 @@
+alembic
+asyncpg
+black
+dotenv
+fastapi[standard]
+gunicorn
+passlib
+sqlalchemy[asyncio]
+strawberry-graphql[fastapi]
+uvicorn[standard]
