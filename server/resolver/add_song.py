@@ -2,6 +2,7 @@ from typing import Optional, Union
 
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from data.data_connection import get_async_session
 from model.database import (
@@ -16,6 +17,7 @@ from model.strawberry import (
     LearnSongResult,
     LoginResult,
     SongIdentifier,
+    SongInfo,
 )
 from resolver.authenticate import get_authenticated_user
 
@@ -32,32 +34,7 @@ async def learn_song(
                 )
             ).one()
         elif song_input.info is not None:
-            contributors: list[ContributorAssociation] = []
-            if song_input.info.value.contributors is not None:
-                for c in song_input.info.value.contributors:
-                    person = (
-                        await session.scalars(
-                            select(ContributorModel).where(
-                                ContributorModel.person_name == c.contributor_name
-                            )
-                        )
-                    ).one_or_none() or ContributorModel(c.contributor_name)
-                    session.add(person)
-                    await session.flush()
-                    await session.refresh(person)
-                    contributors.append(
-                        ContributorAssociation(person, c.contribution_type)
-                    )
-
-            song_data = SongModel(
-                title=song_input.info.value.title,
-                voicing=song_input.info.value.voicing,
-                stock_id=song_input.info.value.stock_id,
-                contributors=contributors,
-            )
-            session.add(song_data)
-            await session.flush()
-            await session.refresh(song_data)
+            song_data = await add_song(song_input.info.value)
 
         if learned is not None:
             try:
@@ -78,3 +55,32 @@ async def learn_song(
         return LearnSongResult(SuccessFailure.SUCCESS)
 
     return LearnSongResult(SuccessFailure.FAILURE)
+
+
+async def add_song(info: SongInfo, session: AsyncSession) -> SongModel:
+    contributors: list[ContributorAssociation] = []
+    if info.contributors is not None:
+        for c in info.contributors:
+            person = (
+                await session.scalars(
+                    select(ContributorModel).where(
+                        ContributorModel.person_name == c.contributor_name
+                    )
+                )
+            ).one_or_none() or ContributorModel(c.contributor_name)
+            session.add(person)
+            await session.flush()
+            await session.refresh(person)
+            contributors.append(ContributorAssociation(person, c.contribution_type))
+
+    song_data = SongModel(
+        title=info.title,
+        voicing=info.voicing,
+        stock_id=info.stock_id,
+        contributors=contributors,
+    )
+    session.add(song_data)
+    await session.flush()
+    await session.refresh(song_data)
+
+    return song_data
