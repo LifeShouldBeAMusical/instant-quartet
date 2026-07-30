@@ -1,6 +1,4 @@
-import enum
-
-from sqlalchemy import Enum, ForeignKey
+from sqlalchemy import Enum, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from model.database.base import ModelBase
@@ -10,6 +8,12 @@ from model.enum import VoicePart
 
 class UserSongAssociation(ModelBase):
     __tablename__ = "user_song_xref"
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id", "song_id", "voice_part", name="unique_user_song_part"
+        ),
+    )
 
     user_id: Mapped[int] = mapped_column(
         ForeignKey("user.id"), primary_key=True, nullable=False
