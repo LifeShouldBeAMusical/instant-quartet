@@ -19,5 +19,4 @@ USER appuser
 # Expose the backend port
 EXPOSE 8000
 
-# CMD [ "alembic", "upgrade", "head", "&&", "gunicorn", "app:app", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker" ]
-ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "alembic", "upgrade", "head", "&&", "gunicorn", "app:app", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker" ]
