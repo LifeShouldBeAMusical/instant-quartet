@@ -34,7 +34,7 @@ async def learn_song(
                 )
             ).one()
         elif song_input.info is not None:
-            song_data = await add_song(song_input.info.value)
+            song_data = await add_song(song_input.info.value, session)
 
         if learned is not None:
             try:
