@@ -14,9 +14,10 @@ const routes: Array<RouteRecordRaw> = [
 			{ path: '', redirect: '/tabs/user' },
 			{ path: 'tab1', redirect: '/tabs/user' },
 			{ path: 'tab2', redirect: '/tabs/music' },
+			{ path: 'tab3', redirect: '/tabs/quartet' },
 			{ path: 'user', component: () => import('@/views/UserTab.vue') },
 			{ path: 'music', component: () => import('@/views/MusicTab.vue') },
-			{ path: 'tab3', component: () => import('@/views/Tab3Page.vue') }
+			{ path: 'quartet', component: () => import('@/views/QuartetTab.vue') }
 		]
 	}
 ]
