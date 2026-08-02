@@ -106,7 +106,7 @@ export const useMusicStore = defineStore('music-store', () => {
 			loadMyMusic(
 				mySongsQuery,
 				{ token: userStore.token },
-				{ fetchPolicy: 'network-only' }
+				{ fetchPolicy: 'no-cache' }
 			)
 		}
 	})
