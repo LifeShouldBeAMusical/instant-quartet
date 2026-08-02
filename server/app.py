@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from strawberry.fastapi import GraphQLRouter
 
-from backup import music_json
+from backup import export_music_json, import_music_json
 from schema import app_schema
 
 app = FastAPI()
@@ -20,4 +20,9 @@ app.include_router(GraphQLRouter(schema=app_schema), prefix="/graphql")
 
 @app.get("/json/music")
 async def backup_music() -> JSONResponse:
-    return await music_json()
+    return await export_music_json()
+
+
+@app.post("/json/music")
+async def import_music():
+    return await import_music_json()
