@@ -18,7 +18,9 @@ export default defineConfigWithVueTs(
 		'**/dist/**',
 		'**/dist-ssr/**',
 		'**/coverage/**',
-		'.vite/deps/**'
+		'.vite/deps/**',
+		'android/*',
+		'ios/*'
 	]),
 	pluginVue.configs['flat/essential'],
 	vueTsConfigs.recommended,

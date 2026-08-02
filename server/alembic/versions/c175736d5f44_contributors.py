@@ -27,10 +27,10 @@ def upgrade() -> None:
     contribution_type_enum = sa.Enum(
         "COMPOSER", "LYRICIST", "ARRANGER", name="contributiontype"
     )
-    try:
-        contribution_type_enum.create(op.get_bind())
-    except (DuplicateObjectError, ProgrammingError):
-        pass
+    # try:
+    #     contribution_type_enum.create(op.get_bind())
+    # except (DuplicateObjectError, ProgrammingError):
+    #     pass
 
     op.create_table(
         "contributor",

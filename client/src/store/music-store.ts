@@ -30,10 +30,11 @@ import { computed, ref, watch } from 'vue'
 
 provideApolloClient(apolloClient)
 
-const { load: loadMusic, result: musicResult } = useLazyQuery<
-	AllSongsQuery,
-	AllSongsQueryVariables
->(allSongsQuery)
+const {
+	load: loadMusic,
+	result: musicResult,
+	loading
+} = useLazyQuery<AllSongsQuery, AllSongsQueryVariables>(allSongsQuery)
 const { load: loadSharedSongs, result: sharedMusicResult } = useLazyQuery<
 	SharedSongsQuery,
 	SharedSongsQueryVariables
@@ -105,7 +106,7 @@ export const useMusicStore = defineStore('music-store', () => {
 			loadMyMusic(
 				mySongsQuery,
 				{ token: userStore.token },
-				{ fetchPolicy: 'network-only' }
+				{ fetchPolicy: 'no-cache' }
 			)
 		}
 	})
@@ -121,6 +122,7 @@ export const useMusicStore = defineStore('music-store', () => {
 		filterVoicing,
 		filterText,
 		music: filteredMusic,
+		loading,
 		fetchMyMusic,
 		myMusic,
 		myMusicIds,

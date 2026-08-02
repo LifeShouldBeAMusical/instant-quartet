@@ -11,6 +11,7 @@ const userStore = useUserStore()
 const token = computed(() => userStore.token)
 
 const store = useMusicStore()
+const loading = computed(() => store.loading)
 const learnedParts = computed(() => store.myMusicIds ?? {})
 const myMusic = computed(() =>
 	store.music.filter((s) => store.myMusicIds && store.myMusicIds[s.id])
@@ -30,15 +31,18 @@ onBeforeMount(() => {
 		<div class="header">
 			<div class="title">Music Library</div>
 
-			<voicing-filter />
-			<text-filter />
+			<template v-if="loading">Loading</template>
+			<template v-else>
+				<voicing-filter />
+				<text-filter />
 
-			<div class="count">
-				{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
-			</div>
+				<div class="count">
+					{{ (music.length + (myMusic?.length ?? 0)).toLocaleString() }} Songs
+				</div>
+			</template>
 		</div>
 
-		<ion-list v-if="token">
+		<ion-list v-if="token && !loading">
 			<ion-list-header>Learned Music</ion-list-header>
 			<song-list-item
 				v-for="song in myMusic"
@@ -47,7 +51,7 @@ onBeforeMount(() => {
 				:learned-parts="learnedParts[song.id]"
 			/>
 		</ion-list>
-		<ion-list>
+		<ion-list v-if="!loading">
 			<ion-list-header v-if="token">Unlearned Music</ion-list-header>
 			<song-list-item v-for="song in music" :key="song.id" :song="song" />
 		</ion-list>

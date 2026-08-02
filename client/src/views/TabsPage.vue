@@ -26,7 +26,7 @@ import { musicalNotes, person, square } from 'ionicons/icons'
 					<ion-label>Music</ion-label>
 				</ion-tab-button>
 
-				<ion-tab-button tab="tab3" href="/tabs/tab3">
+				<ion-tab-button tab="quartet" href="/tabs/quartet">
 					<ion-icon aria-hidden="true" :icon="square" />
 					<ion-label>Tab 3</ion-label>
 				</ion-tab-button>
