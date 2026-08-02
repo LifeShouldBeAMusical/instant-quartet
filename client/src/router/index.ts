@@ -3,10 +3,8 @@ import { RouteRecordRaw } from 'vue-router'
 import TabsPage from '../views/TabsPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
-	{
-		path: '/',
-		redirect: '/tabs/user'
-	},
+	{ path: '', redirect: '/tabs/music' },
+	{ path: '/', redirect: '/tabs/music' },
 	{
 		path: '/tabs/',
 		component: TabsPage,
