@@ -1,7 +1,7 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-	schema: 'http://poseidon:8000/graphql',
+	schema: 'https://instant-quartet-server.onrender.com/graphql',
 	documents: ['../client/src/graphql/queries/*.ts'],
 	generates: {
 		'./src/graphql/': {

@@ -33,7 +33,7 @@ const usernames = computed(() => people.value.map((person) => person.username))
 
 			<ion-buttons>
 				<q-r-code-modal />
-				<ion-button> Scan People </ion-button>
+				<ion-button>Scan People</ion-button>
 			</ion-buttons>
 
 			<shared-song-list :usernames="usernames" />
